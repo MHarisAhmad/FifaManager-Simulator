@@ -76,7 +76,7 @@ while True:
     elif choice == "3":
         print("\n=== WELCOME TO THE TRAINING GROUND ===")
         for index, player in enumerate(squad):
-            print(f"{index + 1}. [{player['Position']}] {player['Name']} (OVR: {player['OVR']})")
+            print(f"{index + 1}. [{player['Position']}] {player['Name']} (OVR: {player['OVR']}) | Energy: {player['Energy']}%")
         print("5. Back to Hub")
 
         # Asking the manager to select a player to train
