@@ -131,8 +131,14 @@ while True:
             
             # Print the result for the manager
             print(f" Team Average Energy: {round(avg_energy, 1)}%")
-            print("[System] Match simulation logic will be added next!")
+
+            # New Step: Generate a random average energy for the opponent team
+            opponent_energy = random.randint(65, 95)
+            print(f"🏟️ Opponent Team Average Energy: {opponent_energy}%")
+            
+            print("\n[System] Energy comparison logic will be added next!")
             time.sleep(2)
+            
         elif match_choice == "2":
             # Generate a random goal deficit between 1 and 4
             goals_conceded = random.randint(1, 4)
