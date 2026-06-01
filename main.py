@@ -58,10 +58,9 @@ while True:
     print("2. Visit Transfer Market")
     print("3. Train Players")
     print("4. Play Match")
-    print("5. Advance Week (Rest Team)")  # New Choice
-    print("6. Exit Game")
+    print("5. Exit Game")
     
-    choice = input("Select an option (1-6): ")
+    choice = input("Select an option (1-5): ")
 
     if choice == "1":
         print("\n--- CURRENT SQUAD ---")
@@ -114,23 +113,25 @@ while True:
         time.sleep(1.5)
         
     elif choice == "4":
-        print("\n[System] Team is walking out of the tunnel... (Coming soon!)")
-        time.sleep(1.5)
+        print("\n=== UPCOMING MATCH WEEK ===")
+        print("Officials have scheduled your next fixture.")
+        print("1. Kick Off Match")
+        print("2. Forfeit Match (Rest Squad completely)")
+        
+        # Capture the manager's match strategy choice
+        match_choice = input("\nManager, what is your strategy? (1-2): ")
+        
+        if match_choice == "1":
+            print("\n[System] Players are walking out of the tunnel... (Simulation coming soon!)")
+            time.sleep(2)
+        elif match_choice == "2":
+            print("\n[System] You selected to forfeit this match week. (Rest logic coming soon!)")
+            time.sleep(2)
+        else:
+            print("\n[System] Invalid choice, returning to hub.")
+            time.sleep(1.5)
         
     elif choice == "5":
-        print("\n Advancing calendar to next week...")
-        print(" The squad is taking a rest period...")
-        time.sleep(2)
-        
-        # Loop through every player dictionary in our list and add energy
-        for player in squad:
-            recovery = random.randint(15, 22) # Random energy back
-            player["Energy"] = min(100, player["Energy"] + recovery)
-            
-        print(" Week advanced! Players have recovered their energy.")
-        time.sleep(2)
-        
-    elif choice == "6":
         print("\nSaving data...")
         time.sleep(1)
         print("Thanks for playing! Goodbye, Boss.")
