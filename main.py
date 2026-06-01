@@ -58,9 +58,10 @@ while True:
     print("2. Visit Transfer Market")
     print("3. Train Players")
     print("4. Play Match")
-    print("5. Exit Game")
+    print("5. Advance Week (Rest Team)")  # New Choice
+    print("6. Exit Game")
     
-    choice = input("Select an option (1-5): ")
+    choice = input("Select an option (1-6): ")
 
     if choice == "1":
         print("\n--- CURRENT SQUAD ---")
@@ -117,6 +118,19 @@ while True:
         time.sleep(1.5)
         
     elif choice == "5":
+        print("\n Advancing calendar to next week...")
+        print(" The squad is taking a rest period...")
+        time.sleep(2)
+        
+        # Loop through every player dictionary in our list and add energy
+        for player in squad:
+            recovery = random.randint(15, 22) # Random energy back
+            player["Energy"] = min(100, player["Energy"] + recovery)
+            
+        print(" Week advanced! Players have recovered their energy.")
+        time.sleep(2)
+        
+    elif choice == "6":
         print("\nSaving data...")
         time.sleep(1)
         print("Thanks for playing! Goodbye, Boss.")
