@@ -122,7 +122,16 @@ while True:
         match_choice = input("\nManager, what is your strategy? (1-2): ")
         
         if match_choice == "1":
-            print("\n[System] Players are walking out of the tunnel... (Simulation coming soon!)")
+            print("\n Analyzing squad fitness...")
+            time.sleep(1)
+            
+            # New Step: Calculate the squad's total and average energy
+            total_energy = sum(player["Energy"] for player in squad)
+            avg_energy = total_energy / len(squad)
+            
+            # Print the result for the manager
+            print(f" Team Average Energy: {round(avg_energy, 1)}%")
+            print("[System] Match simulation logic will be added next!")
             time.sleep(2)
         elif match_choice == "2":
             # Generate a random goal deficit between 1 and 4
