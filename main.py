@@ -134,11 +134,23 @@ while True:
 
             # New Step: Generate a random average energy for the opponent team
             opponent_energy = random.randint(65, 95)
-            print(f"🏟️ Opponent Team Average Energy: {opponent_energy}%")
+            print(f" Opponent Team Average Energy: {opponent_energy}%")
             
-            print("\n[System] Energy comparison logic will be added next!")
+            print("\n Simulating match events... (Winner logic coming next!)")
             time.sleep(2)
-            
+
+            print("\n Post-Match Summary:")
+            for player in squad:
+                drain = random.randint(15, 25)
+                player["Energy"] -= drain
+                
+                # Safety check to make sure energy doesn't drop below 0
+                if player["Energy"] < 0:
+                    player["Energy"] = 0
+                    
+                print(f" -> {player['Name']} ran hard and dropped to {player['Energy']}% energy.")
+            time.sleep(2)
+
         elif match_choice == "2":
             # Generate a random goal deficit between 1 and 4
             goals_conceded = random.randint(1, 4)
