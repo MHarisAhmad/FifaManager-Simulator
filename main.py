@@ -73,7 +73,13 @@ while True:
         time.sleep(1.5)
         
     elif choice == "3":
-        print("\n[System] Heading to the training ground... (Coming soon!)")
+        print("\n=== WELCOME TO THE TRAINING GROUND ===")
+        for index, player in enumerate(squad):
+            print(f"{index + 1}. [{player['Position']}] {player['Name']} (OVR: {player['OVR']})")
+        print("5. Back to Hub")
+        
+        # 2. Ask the manager who they want to train
+        train_choice = input("\nWhich player do you want to train? (1-5): ")
         time.sleep(1.5)
         
     elif choice == "4":
