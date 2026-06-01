@@ -93,7 +93,17 @@ while True:
             selected_player["OVR"] += ovr_boost
             selected_player["OVR"] = round(selected_player["OVR"], 1)
 
+            energy_drain = random.randint(4, 8)
+            selected_player["Energy"] -= energy_drain
+            
+            # Keep energy within valid bounds (0-100)
+            if selected_player["Energy"] < 0:
+                selected_player["Energy"] = 0
+
             print(f" Success! {selected_player['Name']} gained +{round(ovr_boost, 1)} OVR.  New OVR: {selected_player['OVR']}")
+
+            print(f" Fitness Tax: {selected_player['Name']} lost -{energy_drain}% Energy (Current: {selected_player['Energy']}%).")
+            print(" Reminder: Make sure to let your players rest to recover their fitness!")
             time.sleep(2)
         elif train_choice == "5":
             print("\nReturning to Manager Hub...")
