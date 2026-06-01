@@ -50,8 +50,42 @@ squad = [
 print("\nLoading squad databases...")
 time.sleep(1.5)
 
-print("\n=== YOUR CURRENT SQUAD ===")
-# We use a for loop to look at each individual player dictionary inside our squad list
-for player in squad:
-    print(f"[{player['Position']}] {player['Name']} - OVR: {player['OVR']} | Energy: {player['Energy']}%")
-print("==========================")
+# --- STEP 5: THE MAIN MENU LOOP ---
+while True:
+    print(f"\n--- {club_name.upper()} MANAGER HUB ---")
+    print(f"Current Budget: €{budget:,}")
+    print("1. View Squad")
+    print("2. Visit Transfer Market")
+    print("3. Train Players")
+    print("4. Play Match")
+    print("5. Exit Game")
+    
+    choice = input("Select an option (1-5): ")
+
+    if choice == "1":
+        print("\n--- CURRENT SQUAD ---")
+        for player in squad:
+            print(f"[{player['Position']}] {player['Name']} - OVR: {player['OVR']} | Energy: {player['Energy']}%")
+        print("==========================")
+        input("\nPress Enter to return to the hub...")
+    elif choice == "2":
+        print("\n[System] Opening Transfer Market... (Coming soon!)")
+        time.sleep(1.5)
+        
+    elif choice == "3":
+        print("\n[System] Heading to the training ground... (Coming soon!)")
+        time.sleep(1.5)
+        
+    elif choice == "4":
+        print("\n[System] Team is walking out of the tunnel... (Coming soon!)")
+        time.sleep(1.5)
+        
+    elif choice == "5":
+        print("\nSaving data...")
+        time.sleep(1)
+        print("Thanks for playing! Goodbye, Boss.")
+        break  
+        
+    else:
+        print("\n[System] Invalid choice, please choose a number between 1 and 5.")
+        time.sleep(1.5)
