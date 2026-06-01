@@ -68,6 +68,7 @@ while True:
             print(f"[{player['Position']}] {player['Name']} - OVR: {player['OVR']} | Energy: {player['Energy']}%")
         print("==========================")
         input("\nPress Enter to return to the hub...")
+
     elif choice == "2":
         print("\n[System] Opening Transfer Market... (Coming soon!)")
         time.sleep(1.5)
@@ -77,9 +78,17 @@ while True:
         for index, player in enumerate(squad):
             print(f"{index + 1}. [{player['Position']}] {player['Name']} (OVR: {player['OVR']})")
         print("5. Back to Hub")
-        
-        # 2. Ask the manager who they want to train
-        train_choice = input("\nWhich player do you want to train? (1-5): ")
+
+        # Asking the manager to select a player to train
+        train_choice = input("Select a player to train (1-4) or go back (5): ")
+        if train_choice in ["1", "2", "3", "4"]:
+            print(f"\n[System] You selected Player #{train_choice} for training!")
+            time.sleep(2)
+        elif train_choice == "5":
+            print("\nReturning to Manager Hub...")
+            time.sleep(1)
+        else:
+            print("\n[System] Invalid choice, returning to hub.")
         time.sleep(1.5)
         
     elif choice == "4":
