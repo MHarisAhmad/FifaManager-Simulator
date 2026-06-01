@@ -125,7 +125,16 @@ while True:
             print("\n[System] Players are walking out of the tunnel... (Simulation coming soon!)")
             time.sleep(2)
         elif match_choice == "2":
-            print("\n[System] You selected to forfeit this match week. (Rest logic coming soon!)")
+            print("\n [Official] Club has submitted a forfeit for this fixture. Match scored as a 0-3 loss.")
+            print(" Your squad spent the week resting at the training ground...")
+            time.sleep(2)
+            
+            # Micro-step addition: Running recovery calculation loop
+            for player in squad:
+                recovery = random.randint(15, 22)
+                player["Energy"] = min(100, player["Energy"] + recovery)
+                
+            print(" Energy recovered successfully for the next fixture!")
             time.sleep(2)
         else:
             print("\n[System] Invalid choice, returning to hub.")
