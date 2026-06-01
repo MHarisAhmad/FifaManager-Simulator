@@ -125,7 +125,11 @@ while True:
             print("\n[System] Players are walking out of the tunnel... (Simulation coming soon!)")
             time.sleep(2)
         elif match_choice == "2":
-            print("\n [Official] Club has submitted a forfeit for this fixture. Match scored as a 0-3 loss.")
+            # Generate a random goal deficit between 1 and 4
+            goals_conceded = random.randint(1, 4)
+            
+            print(f"\n [Official] Club has submitted a forfeit for this fixture. Match scored as a 0-{goals_conceded} loss.")
+            print(" The calendar advances.")
             print(" Your squad spent the week resting at the training ground...")
             time.sleep(2)
             
