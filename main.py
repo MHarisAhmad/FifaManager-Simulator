@@ -37,4 +37,21 @@ print("====================================")
 
 # Using our time import to pause before the script finishes
 time.sleep(2)
-print("\n[System] Setup complete. Ready for the next feature!")
+
+# --- STEP 4: YOUR STARTING SQUAD ---
+# A list containing 4 dictionaries (one for each player)
+squad = [
+    {"Name": "Starter Keeper", "Position": "GK", "OVR": 72},
+    {"Name": "Starter Defender", "Position": "CB", "OVR": 70},
+    {"Name": "Starter Midfielder", "Position": "CM", "OVR": 71},
+    {"Name": "Starter Striker", "Position": "ST", "OVR": 73}
+]
+
+print("\nLoading squad databases...")
+time.sleep(1.5)
+
+print("\n=== YOUR CURRENT SQUAD ===")
+# We use a for loop to look at each individual player dictionary inside our squad list
+for player in squad:
+    print(f"[{player['Position']}] {player['Name']} - OVR: {player['OVR']}")
+print("==========================")
