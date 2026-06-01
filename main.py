@@ -85,7 +85,15 @@ while True:
             # New Step: Convert string input to the correct list index integer
             player_index = int(train_choice) - 1
             selected_player = squad[player_index]
-            print(f"\n[System] Direct connection established with: {selected_player['Name']}!")
+            print(f"\n Training {selected_player['Name']}...")
+            time.sleep(1.5)
+            
+            # New Step: Generate a random boost and update the player's OVR key
+            ovr_boost = random.uniform(0.1, 0.3)
+            selected_player["OVR"] += ovr_boost
+            selected_player["OVR"] = round(selected_player["OVR"], 1)
+
+            print(f" Success! {selected_player['Name']} gained +{round(ovr_boost, 1)} OVR.  New OVR: {selected_player['OVR']}")
             time.sleep(2)
         elif train_choice == "5":
             print("\nReturning to Manager Hub...")
