@@ -82,7 +82,10 @@ while True:
         # Asking the manager to select a player to train
         train_choice = input("Select a player to train (1-4) or go back (5): ")
         if train_choice in ["1", "2", "3", "4"]:
-            print(f"\n[System] You selected Player #{train_choice} for training!")
+            # New Step: Convert string input to the correct list index integer
+            player_index = int(train_choice) - 1
+            selected_player = squad[player_index]
+            print(f"\n[System] Direct connection established with: {selected_player['Name']}!")
             time.sleep(2)
         elif train_choice == "5":
             print("\nReturning to Manager Hub...")
