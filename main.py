@@ -135,6 +135,16 @@ while True:
             # New Step: Generate a random average energy for the opponent team
             opponent_energy = random.randint(65, 95)
             print(f" Opponent Team Average Energy: {opponent_energy}%")
+
+            # New Micro-Step: Calculate individual player performance scores
+            print("\n MATCH DAY INDIVIDUAL PERFORMANCE REPORT:")
+            print("------------------------------------")
+            for player in squad:
+                # Formula: 60% weight on skill (OVR), 40% weight on fitness (Energy)
+                perf_score = (player["OVR"] * 0.6) + (player["Energy"] * 0.4)
+                print(f" -> {player['Name']} ({player['Position']}) | Match Performance: {round(perf_score, 1)}")
+            print("------------------------------------")
+            time.sleep(2)
             
             print("\n Simulating match events...")
             time.sleep(2)
