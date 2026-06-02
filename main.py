@@ -41,10 +41,10 @@ time.sleep(2)
 # --- STEP 4: YOUR STARTING SQUAD ---
 # A list containing 4 dictionaries (one for each player)
 squad = [
-    {"Name": "Starter Keeper", "Position": "GK", "OVR": 72, "Energy": 100},
-    {"Name": "Starter Defender", "Position": "CB", "OVR": 70,"Energy": 100},
-    {"Name": "Starter Midfielder", "Position": "CM", "OVR": 71,"Energy": 100},
-    {"Name": "Starter Striker", "Position": "ST", "OVR": 73,"Energy": 100}
+    {"Name": "Starter Keeper", "Position": "GK", "OVR": 72, "Energy": 100,"Injury_Duration": 0},
+    {"Name": "Starter Defender", "Position": "CB", "OVR": 70,"Energy": 100,"Injury_Duration": 0},
+    {"Name": "Starter Midfielder", "Position": "CM", "OVR": 71,"Energy": 100,"Injury_Duration": 0},
+    {"Name": "Starter Striker", "Position": "ST", "OVR": 73,"Energy": 100,"Injury_Duration": 0}
 ]
 
 print("\nLoading squad databases...")
@@ -125,25 +125,28 @@ while True:
 
             print("  Squad completing pre-match warmups and physical therapy...")
             for player in squad:
-                pre_match_boost = random.randint(3, 7)
-                player["Energy"] += pre_match_boost
+                if player["Injury_Duration"] == 0:
+                    pre_match_boost = random.randint(3, 7)
+                    player["Energy"] += pre_match_boost
                 
                 # Apply the strict "No one is perfect" rule (Cap at 95%)
-                if player["Energy"] >= 98:
-                    player["Energy"] = 97
+                    if player["Energy"] >= 98:
+                        player["Energy"] = 97
             time.sleep(1.5)
 
-            print("\n Analyzing squad fitness...")
-            time.sleep(1)
-            
-            # New Step: Calculate the squad's total and average energy
-            total_energy = sum(player["Energy"] for player in squad)
-            avg_energy = total_energy / len(squad)
-            
-            # Print the result for the manager
-            print(f" Team Average Energy: {round(avg_energy, 1)}%")
 
-            # New Step: Generate a random average energy for the opponent team
+            healthy_players = [p for p in squad if p["Injury_Duration"] == 0]
+            
+            # Safety check: If your whole team is somehow injured, default to 50%
+            if len(healthy_players) > 0:
+                total_energy = sum(player["Energy"] for player in healthy_players)
+                avg_energy = total_energy / len(healthy_players)
+            else:
+                avg_energy = 50
+                
+            print(f"\n Your Team Average Energy: {round(avg_energy, 1)}%")
+            
+            # 2. Generate opponent energy
             opponent_energy = random.randint(65, 95)
             print(f" Opponent Team Average Energy: {opponent_energy}%")
 
@@ -151,20 +154,24 @@ while True:
             print("\n MATCH DAY INDIVIDUAL PERFORMANCE REPORT:")
             print("------------------------------------")
             for player in squad:
-                # Formula: 60% weight on skill (OVR), 40% weight on fitness (Energy)
-                perf_score = (player["OVR"] * 0.6) + (player["Energy"] * 0.4)
-                print(f" -> {player['Name']} ({player['Position']}) | Match Performance: {round(perf_score, 1)}")
-            print("------------------------------------")
-            time.sleep(2)
-
-            if player["Energy"] < 70:
-                    # Roll a 15% chance for an injury (0.15)
-                    if random.random() < 0.15:
-                        print(f"     MEDICAL ALERT: {player['Name']} felt a tweak in his hamstring due to fatigue!")
-                        print("      [Status: Carrying a minor knock (-5 OVR next week)]")
-                        player["OVR"] = max(10, player["OVR"] - 5) # Safety floor at 10 OVR
+                if player["Injury_Duration"] > 0:
+                    print(f" ->  {player['Name']} ({player['Position']}) | Sidelined (Injured for {player['Injury_Duration']} more matches)")
+                else:
+                    # Healthy player calculations
+                    perf_score = (player["OVR"] * 0.6) + (player["Energy"] * 0.4)
+                    print(f" -> {player['Name']} ({player['Position']}) | Match Performance: {round(perf_score, 1)}")
+                    
+                    # Injury risk check for fatigued players
+                    if player["Energy"] < 70:
+                        if random.random() < 0.15:
+                            # Roll random duration between 3 and 6 matches
+                            duration = random.randint(3, 6)
+                            player["Injury_Duration"] = duration
+                            print(f"    CRITICAL MEDICAL ALERT: {player['Name']} suffered a severe injury during the match!")
+                            print(f"    [Status: Out of action for the next {duration} matches]")
                         
             print("------------------------------------")
+            time.sleep(2)
             
             print("\n Simulating match events...")
             time.sleep(2)
@@ -196,15 +203,20 @@ while True:
 
             print("\n Post-Match Summary:")
             for player in squad:
-                drain = random.randint(15, 25)
-                player["Energy"] -= drain
-                
-                # Safety check to make sure energy doesn't drop below 0
-                if player["Energy"] < 0:
-                    player["Energy"] = 0
+                if player["Injury_Duration"] > 0:
+                    # Reduce their injury countdown by 1 match week
+                    player["Injury_Duration"] -= 1
+                    if player["Injury_Duration"] == 0:
+                        print(f" -> {player['Name']} has fully recovered and returned to light training!")
+                else:
+                    # Healthy players drain energy
+                    drain = random.randint(15, 25)
+                    player["Energy"] -= drain
+                    if player["Energy"] < 0:
+                        player["Energy"] = 0
+                    print(f" -> {player['Name']} ran hard and dropped to {player['Energy']}% energy.")
                     
-                print(f" -> {player['Name']} ran hard and dropped to {player['Energy']}% energy.")
-            time.sleep(2)
+            time.sleep(3)
 
         elif match_choice == "2":
             # Generate a random goal deficit between 1 and 4
