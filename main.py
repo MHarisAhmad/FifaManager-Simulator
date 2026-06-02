@@ -69,7 +69,7 @@ while True:
             # Check if the player is sidelined to add a medical status flag
             status = " Healthy" if player["Injury_Duration"] == 0 else f" Sidelined ({player['Injury_Duration']} matches)"
             
-            # Use round(player["OVR"], 1) here to force a clean 1-decimal display
+            
             print(f" {player['Name']} ({player['Position']})")
             print(f"   OVR: {round(player['OVR'], 1)} | Energy: {player['Energy']}% | Status: {status}")
             print("-" * 30)
