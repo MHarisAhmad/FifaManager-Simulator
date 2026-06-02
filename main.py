@@ -37,6 +37,7 @@ print("====================================")
 
 # Using our time import to pause before the script finishes
 time.sleep(2)
+energy_boost_used = False
 
 # --- STEP 4: YOUR STARTING SQUAD ---
 # A list containing 4 dictionaries (one for each player)
@@ -63,11 +64,15 @@ while True:
     choice = input("Select an option (1-5): ")
 
     if choice == "1":
-        print("\n--- CURRENT SQUAD ---")
+        print("\n=== YOUR SQUAD ===")
         for player in squad:
-            print(f"[{player['Position']}] {player['Name']} - OVR: {player['OVR']} | Energy: {player['Energy']}%")
-        print("==========================")
-        input("\nPress Enter to return to the hub...")
+            # Check if the player is sidelined to add a medical status flag
+            status = " Healthy" if player["Injury_Duration"] == 0 else f" Sidelined ({player['Injury_Duration']} matches)"
+            
+            # Use round(player["OVR"], 1) here to force a clean 1-decimal display
+            print(f" {player['Name']} ({player['Position']})")
+            print(f"   OVR: {round(player['OVR'], 1)} | Energy: {player['Energy']}% | Status: {status}")
+            print("-" * 30)
 
     elif choice == "2":
         print("\n[System] Opening Transfer Market... (Coming soon!)")
@@ -75,41 +80,47 @@ while True:
         
     elif choice == "3":
         print("\n=== WELCOME TO THE TRAINING GROUND ===")
-        for index, player in enumerate(squad):
-            print(f"{index + 1}. [{player['Position']}] {player['Name']} (OVR: {player['OVR']}) | Energy: {player['Energy']}%")
-        print("5. Back to Hub")
-
-        # Asking the manager to select a player to train
-        train_choice = input("Select a player to train (1-4) or go back (5): ")
-        if train_choice in ["1", "2", "3", "4"]:
-            # New Step: Convert string input to the correct list index integer
-            player_index = int(train_choice) - 1
-            selected_player = squad[player_index]
-            print(f"\n Training {selected_player['Name']}...")
-            time.sleep(1.5)
-            
-            # New Step: Generate a random boost and update the player's OVR key
-            ovr_boost = random.uniform(0.1, 0.3)
-            selected_player["OVR"] += ovr_boost
-            selected_player["OVR"] = round(selected_player["OVR"], 1)
-
-            energy_drain = random.randint(4, 8)
-            selected_player["Energy"] -= energy_drain
-            
-            # Keep energy within valid bounds (0-100)
-            if selected_player["Energy"] < 0:
-                selected_player["Energy"] = 0
-
-            print(f" Success! {selected_player['Name']} gained +{round(ovr_boost, 1)} OVR.  New OVR: {selected_player['OVR']}")
-
-            print(f" Fitness Tax: {selected_player['Name']} lost -{energy_drain}% Energy (Current: {selected_player['Energy']}%).")
-            print(" Reminder: Make sure to let your players rest to recover their fitness!")
-            time.sleep(2)
-        elif train_choice == "5":
-            print("\nReturning to Manager Hub...")
-            time.sleep(1)
+        print("\n=== TRAINING GROUND ===")
+        print("Your coaches have prepared drills to improve player attributes.")
+        print("Warning: Intensive training drains player energy.")
+        
+        # [Your existing training loop code goes here—keep your exact OVR increases and energy drains!]
+        print("\n Running training drills...")
+        time.sleep(2)
+        for player in squad:
+            if player["Injury_Duration"] == 0:
+                # Use random.uniform for the decimal growth
+                ovr_gain = random.uniform(0.1, 0.3)
+                energy_loss = random.randint(10, 15)
+                
+                # Force player["OVR"] to float() before adding to prevent the TypeError
+                player["OVR"] = float(player["OVR"]) + ovr_gain
+                player["Energy"] = max(0, player["Energy"] - energy_loss)
+                
+                print(f" {player['Name']} gained +{round(ovr_gain, 1)} OVR but lost -{energy_loss}% Energy.")
+        
+        print("\n Training session completed successfully.")
+        time.sleep(1.5)
+        
+        # New Micro-Step: Post-Training Energy Boost Feature
+        print("\n TEAM medical staff offer a one-time pre-match recovery boost (+8% to +12% Energy).")
+        if energy_boost_used:
+            print(" [Staff] Supplements already distributed this week. Available again next match week.")
         else:
-            print("\n[System] Invalid choice, returning to hub.")
+            boost_choice = input("Administer energy supplements to the squad? (y/n): ").strip().lower()
+            if boost_choice == 'y':
+                print("\n Distributing recovery shakes...")
+                time.sleep(1)
+                for player in squad:
+                    if player["Injury_Duration"] == 0:
+                        boost_amount = random.randint(8, 12)
+                        player["Energy"] = min(100, player["Energy"] + boost_amount)
+                        print(f" -> {player['Name']} recovered +{boost_amount}% energy.")
+                
+                energy_boost_used = True
+                print(" Energy boost successfully applied for this match cycle!")
+            else:
+                print(" Boost held back. You can still apply it later before kicking off.")
         time.sleep(1.5)
         
     elif choice == "4":
@@ -200,6 +211,7 @@ while True:
                 print(f"FT: A dominant, high-energy performance delivers a clean victory.")
                 print(f"Match Winner: {favorite}")
                 print("------------------------------------")
+            energy_boost_used = False
 
             print("\n Post-Match Summary:")
             for player in squad:
