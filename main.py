@@ -145,6 +145,15 @@ while True:
                 print(f" -> {player['Name']} ({player['Position']}) | Match Performance: {round(perf_score, 1)}")
             print("------------------------------------")
             time.sleep(2)
+
+            if player["Energy"] < 70:
+                    # Roll a 15% chance for an injury (0.15)
+                    if random.random() < 0.15:
+                        print(f"     MEDICAL ALERT: {player['Name']} felt a tweak in his hamstring due to fatigue!")
+                        print("      [Status: Carrying a minor knock (-5 OVR next week)]")
+                        player["OVR"] = max(10, player["OVR"] - 5) # Safety floor at 10 OVR
+                        
+            print("------------------------------------")
             
             print("\n Simulating match events...")
             time.sleep(2)
