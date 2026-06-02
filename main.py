@@ -136,8 +136,33 @@ while True:
             opponent_energy = random.randint(65, 95)
             print(f" Opponent Team Average Energy: {opponent_energy}%")
             
-            print("\n Simulating match events... (Winner logic coming next!)")
+            print("\n Simulating match events...")
             time.sleep(2)
+
+            if avg_energy >= opponent_energy:
+                favorite = f"{club_name}"
+                underdog = "The Opponent"
+            else:
+                favorite = "The Opponent"
+                underdog = f"{club_name}"
+                
+            # Apply the 25% upset calculation with polished commentary strings
+            upset_roll = random.random()
+
+            if upset_roll < 0.25:
+                print("\n====================================")
+                print(" MATCH REPORT | FULL-TIME PRESS")
+                print("====================================")
+                print(f"FT: Against all odds, a masterclass in tactical grit wins it!")
+                print(f"Match Winner: {underdog}")
+                print("------------------------------------")
+            else:
+                print("\n====================================")
+                print(" MATCH REPORT | FULL-TIME PRESS")
+                print("====================================")
+                print(f"FT: A dominant, high-energy performance delivers a clean victory.")
+                print(f"Match Winner: {favorite}")
+                print("------------------------------------")
 
             print("\n Post-Match Summary:")
             for player in squad:
