@@ -122,6 +122,17 @@ while True:
         match_choice = input("\nManager, what is your strategy? (1-2): ")
         
         if match_choice == "1":
+
+            print("  Squad completing pre-match warmups and physical therapy...")
+            for player in squad:
+                pre_match_boost = random.randint(3, 7)
+                player["Energy"] += pre_match_boost
+                
+                # Apply the strict "No one is perfect" rule (Cap at 95%)
+                if player["Energy"] >= 98:
+                    player["Energy"] = 97
+            time.sleep(1.5)
+
             print("\n Analyzing squad fitness...")
             time.sleep(1)
             
