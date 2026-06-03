@@ -163,7 +163,7 @@ while True:
         
     elif choice == "4":
         print("\n=== UPCOMING MATCH WEEK ===")
-        print("Officials have scheduled your next fixture.\n")
+        print("Match fixtures scheduled by the officials\n")
         print("1. Kick Off Match")
         print("2. Forfeit Match (Rest Squad completely)")
         
