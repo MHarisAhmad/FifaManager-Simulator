@@ -52,7 +52,7 @@ while True:
         input("\nPress Enter to return to the selection menu...")
         continue
     elif tier_choice in ["1", "2", "3"]:
-        # If they pick a valid tier, we break out of the loop and continue the game
+        
         break
     else:
         print(" Invalid selection. Please enter a number between 1 and 4.")
