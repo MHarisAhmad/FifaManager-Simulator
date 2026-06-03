@@ -11,12 +11,51 @@ manager_name = input("Enter your name, Manager: ").title()
 club_name = input("What club are you taking over? ").title()
 
 # --- STEP 2: DYNAMIC BUDGET SYSTEM ---
-print("\n--- CHOOSE YOUR CLUB'S BOARD EXPECTATIONS ---")
-print("1. Elite Club (e.g., Real Madrid, Man City) - High Budget")
-print("2. Mid-Table Club (e.g., Aston Villa, Roma) - Medium Budget")
-print("3. Road to Glory (e.g., Wrexham, Leicester) - Low Budget")
+while True:
+    print("\n--- CHOOSE YOUR CLUB'S BOARD EXPECTATIONS ---")
+    print("1. Elite Club (e.g., Real Madrid, Man City) - High Budget")
+    print("2. Mid-Table Club (e.g., Aston Villa, Roma) - Medium Budget")
+    print("3. Road to Glory (e.g., Wrexham, Leicester) - Low Budget")
+    print("4. View complete list of real-world clubs by category!")
 
-tier_choice = input("Select your club's tier (1-3): ")
+    tier_choice = input("Select your club's tier (1-4): ").strip()
+    if tier_choice == "4":
+        print("\n=======================================================================")
+        print("  OFFICIAL WORLD FOOTBALL CLUB TIERS (2026 Season Database) ")
+        print("=======================================================================")
+        
+        print("\n ELITE CLUBS (High Budget | Expectation: Win Double/Treble)")
+        print("-----------------------------------------------------------------------")
+        print("  • Premier League:  Manchester City, Arsenal, Liverpool, Chelsea")
+        print("  • La Liga:         Real Madrid, FC Barcelona, Atlético Madrid")
+        print("  • Bundesliga:      Bayern Munich, Borussia Dortmund, Bayer Leverkusen")
+        print("  • Serie A:         Inter Milan, Juventus, AC Milan")
+        print("  • Ligue 1 & Other: Paris Saint-Germain, Sporting CP, Benfica")
+        
+        print("\n MID-TABLE CLUBS (Medium Budget | Expectation: European Qualification)")
+        print("-----------------------------------------------------------------------")
+        print("  • Premier League:  Aston Villa, Newcastle United, Tottenham, West Ham")
+        print("  • La Liga:         Real Sociedad, Real Betis, Villarreal, Athletic Bilbao")
+        print("  • Bundesliga:      RB Leipzig, Eintracht Frankfurt, VfB Stuttgart")
+        print("  • Serie A:         AS Roma, Atalanta, SS Lazio, Fiorentina")
+        print("  • Other Leagues:   Ajax, PSV Eindhoven, Lyon, Marseille")
+        
+        print("\n ROAD TO GLORY CLUBS (Low Budget | Expectation: Avoid Degradation/Rebuild)")
+        print("-----------------------------------------------------------------------")
+        print("  • England:         Wrexham AFC, Leicester City, Ipswich Town, Burnley")
+        print("  • Spain:           RCD Espanyol, Real Valladolid, Leganés")
+        print("  • Germany:         FC St. Pauli, Holstein Kiel, Schalke 04")
+        print("  • Italy:           Como 1907, Parma, Venezia FC")
+        print("  • Rest of World:   Inter Miami CF, Al-Nassr, Celtic FC, Rangers FC")
+        
+        print("=======================================================================")
+        input("\nPress Enter to return to the selection menu...")
+        continue
+    elif tier_choice in ["1", "2", "3"]:
+        # If they pick a valid tier, we break out of the loop and continue the game
+        break
+    else:
+        print(" Invalid selection. Please enter a number between 1 and 4.")
 
 if tier_choice == "1":
     budget = random.randint(150000000, 250000000) 
@@ -36,7 +75,7 @@ print(f"Board Expectation: You have been given a transfer budget of €{budget:,
 print("====================================")
 
 # Using our time import to pause before the script finishes
-time.sleep(2)
+time.sleep(0.5)
 energy_boost_used = False
 
 # --- STEP 4: YOUR STARTING SQUAD ---
