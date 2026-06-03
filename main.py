@@ -118,10 +118,9 @@ while True:
         time.sleep(1.5)
         
     elif choice == "3":
-        print("\n=== WELCOME TO THE TRAINING GROUND ===")
         print("\n=== TRAINING GROUND ===")
         print("Your coaches have prepared drills to improve player attributes.")
-        print("Warning: Intensive training drains player energy.")
+        print("WARNING: Intensive training drains player energy!")
         
         # [Your existing training loop code goes here—keep your exact OVR increases and energy drains!]
         print("\n Running training drills...")
@@ -142,29 +141,29 @@ while True:
         time.sleep(1.5)
         
         # New Micro-Step: Post-Training Energy Boost Feature
-        print("\n TEAM medical staff offer a one-time pre-match recovery boost (+8% to +12% Energy).")
+        print("\n Gain one-time pre-match energy boost!")
         if energy_boost_used:
-            print(" [Staff] Supplements already distributed this week. Available again next match week.")
+            print(" Not available! Try next time.")
         else:
-            boost_choice = input("Administer energy supplements to the squad? (y/n): ").strip().lower()
+            boost_choice = input("Use energy supplements (y/n): ").strip().lower()
             if boost_choice == 'y':
-                print("\n Distributing recovery shakes...")
+                print("\n Distributing energy supplements...")
                 time.sleep(1)
                 for player in squad:
                     if player["Injury_Duration"] == 0:
                         boost_amount = random.randint(8, 12)
                         player["Energy"] = min(100, player["Energy"] + boost_amount)
-                        print(f" -> {player['Name']} recovered +{boost_amount}% energy.")
+                        print(f" ->{player['Name']} recovered +{boost_amount}% energy.")
                 
                 energy_boost_used = True
-                print(" Energy boost successfully applied for this match cycle!")
+                print(" Energy boost successfully applied!")
             else:
-                print(" Boost held back. You can still apply it later before kicking off.")
+                print(" Boost available. You can still apply it later.")
         time.sleep(1.5)
         
     elif choice == "4":
         print("\n=== UPCOMING MATCH WEEK ===")
-        print("Officials have scheduled your next fixture.")
+        print("Officials have scheduled your next fixture.\n")
         print("1. Kick Off Match")
         print("2. Forfeit Match (Rest Squad completely)")
         
@@ -270,6 +269,7 @@ while True:
             time.sleep(3)
 
         elif match_choice == "2":
+            
             # Generate a random goal deficit between 1 and 4
             goals_conceded = random.randint(1, 4)
             
