@@ -170,6 +170,22 @@ while True:
         print("Match fixtures scheduled by the officials\n")
         print("1. Kick Off Match")
         print("2. Forfeit Match (Rest Squad completely)")
+
+        healthy_players = [p for p in squad if p["Injury_Duration"] == 0]
+            
+            # Safety check: If your whole team is somehow injured, default to 50%
+        if len(healthy_players) > 0:
+                total_energy = sum(player["Energy"] for player in healthy_players)
+                avg_energy = total_energy / len(healthy_players)
+        else:
+                avg_energy = 50
+                
+        print(f"\n Your Team Average Energy: {round(avg_energy, 1)}%")
+            
+            # 2. Generate opponent energy
+        opponent_energy = random.randint(65, 95)
+        print(f" Opponent Team Average Energy: {opponent_energy}%")
+
         
         # Capture the manager's match strategy choice
         match_choice = input("\nManager, what is your strategy? (1-2): ")
@@ -187,21 +203,6 @@ while True:
                         player["Energy"] = 97
             time.sleep(1.5)
 
-
-            healthy_players = [p for p in squad if p["Injury_Duration"] == 0]
-            
-            # Safety check: If your whole team is somehow injured, default to 50%
-            if len(healthy_players) > 0:
-                total_energy = sum(player["Energy"] for player in healthy_players)
-                avg_energy = total_energy / len(healthy_players)
-            else:
-                avg_energy = 50
-                
-            print(f"\n Your Team Average Energy: {round(avg_energy, 1)}%")
-            
-            # 2. Generate opponent energy
-            opponent_energy = random.randint(65, 95)
-            print(f" Opponent Team Average Energy: {opponent_energy}%")
 
             # New Micro-Step: Calculate individual player performance scores
             print("\n MATCH DAY INDIVIDUAL PERFORMANCE REPORT:")
