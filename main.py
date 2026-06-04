@@ -112,6 +112,8 @@ while True:
             print(f" {player['Name']} ({player['Position']})")
             print(f"   OVR: {round(player['OVR'], 1)} | Energy: {player['Energy']}% | Status: {status}")
             print("-" * 30)
+        time.sleep(0.3)
+        input("\n  Press Enter to return to the main menu...")
 
     elif choice == "2":
         print("\n[System] Opening Transfer Market... (Coming soon!)")
@@ -145,7 +147,7 @@ while True:
         if energy_boost_used:
             print(" Not available! Try next time.")
         else:
-            boost_choice = input("Use energy supplements (y/n): ").strip().lower()
+            boost_choice = input(" Use energy supplements (y/n): ").strip().lower()
             if boost_choice == 'y':
                 print("\n Distributing energy supplements...")
                 time.sleep(1)
@@ -172,7 +174,7 @@ while True:
         
         if match_choice == "1":
 
-            print("  Squad completing pre-match warmups and physical therapy...")
+            print("\n  Squad completing pre-match warmups and physical therapy...")
             for player in squad:
                 if player["Injury_Duration"] == 0:
                     pre_match_boost = random.randint(3, 7)
@@ -239,14 +241,14 @@ while True:
                 print("\n====================================")
                 print(" MATCH REPORT | FULL-TIME PRESS")
                 print("====================================")
-                print(f"FT: Against all odds, a masterclass in tactical grit wins it!")
+                print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
                 print(f"Match Winner: {underdog}")
                 print("------------------------------------")
             else:
                 print("\n====================================")
                 print(" MATCH REPORT | FULL-TIME PRESS")
                 print("====================================")
-                print(f"FT: A dominant, high-energy performance delivers a clean victory.")
+                print(f"\nFT: A dominant, high-energy performance delivers a clean victory.")
                 print(f"Match Winner: {favorite}")
                 print("------------------------------------")
             energy_boost_used = False
