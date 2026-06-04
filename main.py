@@ -274,10 +274,17 @@ while True:
             print("\n Post-Match Summary:")
             for player in squad:
                 if player["Injury_Duration"] > 0:
-                    # Reduce their injury countdown by 1 match week
+                    # 1.Reduce their injury countdown by 1 match week
                     player["Injury_Duration"] -= 1
+
+                    # 2. NEW: Give them +20% energy because they rested this week!
+                    injured_recovery = 20
+                    player["Energy"] = min(97, player["Energy"] + injured_recovery)
+
                     if player["Injury_Duration"] == 0:
-                        print(f" -> {player['Name']} has fully recovered and returned to light training!")
+                        print(f" -> {player['Name']} has fully recovered, gained +{injured_recovery}% energy, and returned.(Energy: {player['Energy']}%)")
+                    else:
+                        print(f" -> {player['Name']} spent the week resting. Recovered +{injured_recovery}% energy. (Current: {player['Energy']}% | Matches left: {player['Injury_Duration']})")
                 else:
                     # Healthy players drain energy
                     drain = random.randint(15, 25)
@@ -292,7 +299,7 @@ while True:
             
             # 2. Randomly decide if recovery triggers after 2 or 3 matches
             # We pick a random target threshold (either 2 or 3)
-            recovery_threshold = random.randint(2, 3)
+            recovery_threshold = random.randint(1, 3)
             
             if matches_played_counter >= recovery_threshold:
                 print("\n========================================================")
