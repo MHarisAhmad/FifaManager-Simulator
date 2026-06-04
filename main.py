@@ -244,6 +244,14 @@ while True:
                 print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
                 print(f"Match Winner: {underdog}")
                 print("------------------------------------")
+                # Dynamic Budget Reward for Upset Win
+                if underdog == club_name:
+                    # You were the underdog and you pulled off a massive upset! Extra bonus!
+                    match_bonus = random.randint(4000000, 7000000)
+                    budget += match_bonus
+                    print(f" UPSET BONUS! The board is ecstatic! Earned: €{match_bonus:,}")
+                else:
+                    print(" Disappointing defeat. No prize money awarded by the sponsors.")
             else:
                 print("\n====================================")
                 print(" MATCH REPORT | FULL-TIME PRESS")
@@ -251,6 +259,13 @@ while True:
                 print(f"\nFT: A dominant, high-energy performance delivers a clean victory.")
                 print(f"Match Winner: {favorite}")
                 print("------------------------------------")
+                if favorite == club_name:
+                    # You were expected to win and you delivered. Standard bonus.
+                    match_bonus = random.randint(2500000, 4500000)
+                    budget += match_bonus
+                    print(f" VICTORY! Match performance prize money added: €{match_bonus:,}")
+                else:
+                    print(" DEFEAT! You lost to the stronger team. No match day prize money.")
             energy_boost_used = False
 
             print("\n Post-Match Summary:")
