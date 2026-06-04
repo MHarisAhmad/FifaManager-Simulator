@@ -77,6 +77,7 @@ print("====================================")
 # Using our time import to pause before the script finishes
 time.sleep(0.5)
 energy_boost_used = False
+matches_played_counter = 0
 
 # --- STEP 4: YOUR STARTING SQUAD ---
 # A list containing 4 dictionaries (one for each player)
@@ -131,7 +132,7 @@ while True:
             if player["Injury_Duration"] == 0:
                 # Use random.uniform for the decimal growth
                 ovr_gain = random.uniform(0.1, 0.3)
-                energy_loss = random.randint(10, 15)
+                energy_loss = random.randint(8, 13)
                 
                 # Force player["OVR"] to float() before adding to prevent the TypeError
                 player["OVR"] = float(player["OVR"]) + ovr_gain
@@ -153,7 +154,7 @@ while True:
                 time.sleep(1)
                 for player in squad:
                     if player["Injury_Duration"] == 0:
-                        boost_amount = random.randint(8, 12)
+                        boost_amount = random.randint(10, 20)
                         player["Energy"] = min(100, player["Energy"] + boost_amount)
                         print(f" ->{player['Name']} recovered +{boost_amount}% energy.")
                 
@@ -162,6 +163,7 @@ while True:
             else:
                 print(" Boost available. You can still apply it later.")
         time.sleep(1.5)
+        
         
     elif choice == "4":
         print("\n=== UPCOMING MATCH WEEK ===")
@@ -267,6 +269,7 @@ while True:
                 else:
                     print(" DEFEAT! You lost to the stronger team. No match day prize money.")
             energy_boost_used = False
+              
 
             print("\n Post-Match Summary:")
             for player in squad:
@@ -282,6 +285,31 @@ while True:
                     if player["Energy"] < 0:
                         player["Energy"] = 0
                     print(f" -> {player['Name']} ran hard and dropped to {player['Energy']}% energy.")
+
+            # --- NEW AUTOMATIC ENGINE BALANCING FEATURE ---
+            # 1. Advance our global match counter
+            matches_played_counter += 1
+            
+            # 2. Randomly decide if recovery triggers after 2 or 3 matches
+            # We pick a random target threshold (either 2 or 3)
+            recovery_threshold = random.randint(2, 3)
+            
+            if matches_played_counter >= recovery_threshold:
+                print("\n========================================================")
+                print(" AUTOMATIC TEAM ALERT: Rest and recovery energy boost added!")
+                print("========================================================")
+                time.sleep(1)
+                
+                for player in squad:
+                    if player["Injury_Duration"] == 0:
+                        recovery_bonus = random.randint(15, 20)
+                        # Cap it safely at 100% using our min() function
+                        player["Energy"] = min(100, player["Energy"] + recovery_bonus)
+                        print(f" -> {player['Name']} rested up and recovered +{recovery_bonus}% energy (Current: {player['Energy']}%).")
+                
+                print("========================================================")
+                # 3. Reset the counter back to 0 so the cycle starts over
+                matches_played_counter = 0
                     
             time.sleep(3)
 
