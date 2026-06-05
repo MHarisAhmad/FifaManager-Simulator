@@ -249,12 +249,26 @@ while True:
             # Apply the 25% upset calculation with polished commentary strings
             upset_roll = random.random()
 
+            player_goals = 0
+            opponent_goals = 0
+
+            
+
             if upset_roll < 0.25:
+
+                if underdog == club_name:
+                    player_goals = random.randint(1, 3)
+                    opponent_goals = random.randint(0, player_goals - 1)
+                else:
+                    opponent_goals = random.randint(1, 3)
+                    player_goals = random.randint(0, opponent_goals - 1)
+
                 print("\n====================================")
                 print(" MATCH REPORT | FULL-TIME PRESS")
                 print("====================================")
                 print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
                 print(f"Match Winner: {underdog}")
+                print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
                 print("------------------------------------")
                 # Dynamic Budget Reward for Upset Win
                 if underdog == club_name:
@@ -273,11 +287,19 @@ while True:
                 print(f"Match Winner: {favorite}")
                 print("------------------------------------")
                 if favorite == club_name:
+                    if favorite == club_name:
+                        player_goals = random.randint(1, 4)
+                        opponent_goals = random.randint(0, player_goals - 1)
+                    else:
+                        opponent_goals = random.randint(1, 4)
+                        player_goals = random.randint(0, opponent_goals - 1)
+
                     # You were expected to win and you delivered. Standard bonus.
                     raw_bonus = random.randint(2500000, 4500000)
                     match_bonus = round(raw_bonus, -5)
                     budget += match_bonus
                     print(f" VICTORY! Match performance prize money added: €{match_bonus:,}")
+                    print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
                 else:
                     print(" DEFEAT! You lost to the stronger team. No match day prize money.")
             energy_boost_used = False
