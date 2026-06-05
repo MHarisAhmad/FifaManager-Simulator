@@ -259,7 +259,8 @@ while True:
                 # Dynamic Budget Reward for Upset Win
                 if underdog == club_name:
                     # You were the underdog and you pulled off a massive upset! Extra bonus!
-                    match_bonus = random.randint(4000000, 7000000)
+                    raw_bonus = random.randint(4000000, 7000000)
+                    match_bonus = round(raw_bonus, -5)
                     budget += match_bonus
                     print(f" UPSET BONUS! The board is ecstatic! Earned: €{match_bonus:,}")
                 else:
@@ -273,7 +274,8 @@ while True:
                 print("------------------------------------")
                 if favorite == club_name:
                     # You were expected to win and you delivered. Standard bonus.
-                    match_bonus = random.randint(2500000, 4500000)
+                    raw_bonus = random.randint(2500000, 4500000)
+                    match_bonus = round(raw_bonus, -5)
                     budget += match_bonus
                     print(f" VICTORY! Match performance prize money added: €{match_bonus:,}")
                 else:
