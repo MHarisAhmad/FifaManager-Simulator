@@ -58,11 +58,14 @@ while True:
         print(" Invalid selection. Please enter a number between 1 and 4.")
 
 if tier_choice == "1":
-    budget = random.randint(150000000, 250000000) 
+    raw_budget = random.randint(150000000, 250000000) 
+    budget = round(raw_budget, -6)  
 elif tier_choice == "2":
-    budget = random.randint(50000000, 90000000)
+    raw_budget = random.randint(50000000, 90000000)
+    budget = round(raw_budget, -5)  
 elif tier_choice == "3":
-    budget = random.randint(5000000, 15000000)
+    raw_budget = random.randint(5000000, 15000000)
+    budget = round(raw_budget, -4)  
 else:
     print("\n[System] Invalid choice! The board gave you a default standard budget.")
     budget = 30000000
@@ -156,6 +159,7 @@ while True:
                     if player["Injury_Duration"] == 0:
                         # 1. Calculate the exact deficit up to 100%
                         energy_needed = 100 - player["Energy"]
+                        # 2. Roll the potential boost amount
                         potential_boost = random.randint(10, 20)
                         # 3. The actual boost is the smaller of what they need vs what the supplement gives
                         actual_boost = min(energy_needed, potential_boost)
