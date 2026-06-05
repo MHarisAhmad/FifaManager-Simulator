@@ -154,9 +154,14 @@ while True:
                 time.sleep(1)
                 for player in squad:
                     if player["Injury_Duration"] == 0:
-                        boost_amount = random.randint(10, 20)
-                        player["Energy"] = min(100, player["Energy"] + boost_amount)
-                        print(f" ->{player['Name']} recovered +{boost_amount}% energy.")
+                        # 1. Calculate the exact deficit up to 100%
+                        energy_needed = 100 - player["Energy"]
+                        potential_boost = random.randint(10, 20)
+                        # 3. The actual boost is the smaller of what they need vs what the supplement gives
+                        actual_boost = min(energy_needed, potential_boost)
+                        # 4. Apply the accurate boost to the player
+                        player["Energy"] += actual_boost
+                        print(f" ->{player['Name']} recovered +{actual_boost}% energy.")
                 
                 energy_boost_used = True
                 print(" Energy boost successfully applied!")
