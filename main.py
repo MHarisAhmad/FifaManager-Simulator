@@ -303,6 +303,31 @@ while True:
                 else:
                     print(" DEFEAT! You lost to the stronger team. No match day prize money.")
             energy_boost_used = False
+
+            player_scorer_names = []
+            healthy_outfield_players = [p for p in squad if p["Injury_Duration"] == 0 and p["Position"] != "GK"]
+            if len(healthy_outfield_players) > 0 and player_goals > 0:
+                position_weights = []
+                for p in healthy_outfield_players:
+                    if p["Position"] == "ST":
+                        position_weights.append(65)  # 65% chance for clinical strikers
+                    elif p["Position"] == "CM":
+                        position_weights.append(25)  # 25% chance for midfielders
+                    else:
+                        position_weights.append(10)
+                for _ in range(player_goals):
+                    # Pick 1 random player using our custom percentage weights
+                    chosen_scorer = random.choices(healthy_outfield_players, weights=position_weights, k=1)[0]
+                    # Save their name to our scorer list
+                    player_scorer_names.append(f"{chosen_scorer['Name']} ({chosen_scorer['Position']})")
+
+            print("\n Match Events:")
+            print("------------------------------------")
+            if player_goals > 0:
+                print(f" Your Goals scored by: {', '.join(player_scorer_names)}")
+            else:
+                print(" Your Team: No goals scored.")
+            print("------------------------------------")
               
 
             print("\n Post-Match Summary:")
