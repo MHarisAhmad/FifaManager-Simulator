@@ -318,13 +318,19 @@ while True:
                 for _ in range(player_goals):
                     # Pick 1 random player using our custom percentage weights
                     chosen_scorer = random.choices(healthy_outfield_players, weights=position_weights, k=1)[0]
+                    goal_minute = random.randint(1, 90)
+                    goal_data = {
+                        "minute": goal_minute,
+                        "text": f"{chosen_scorer['Name']} ({chosen_scorer['Position']})"
+                    }
                     # Save their name to our scorer list
-                    player_scorer_names.append(f"{chosen_scorer['Name']} ({chosen_scorer['Position']})")
+                    player_scorer_names.append(goal_data)
 
-            print("\n Match Events:")
+            print("\n MATCH EVENTS:")
             print("------------------------------------")
             if player_goals > 0:
-                print(f" Your Goals scored by: {', '.join(player_scorer_names)}")
+                for goal in player_scorer_names:
+                    print(f" -> [{goal['minute']}'.] GOAL! {goal['text']}")
             else:
                 print(" Your Team: No goals scored.")
             print("------------------------------------")
