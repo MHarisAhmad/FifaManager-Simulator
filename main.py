@@ -136,8 +136,11 @@ while True:
             if player["Injury_Duration"] == 0:
                 # Use random.uniform for the decimal growth
                 ovr_gain = random.uniform(0.1, 0.3)
-                energy_loss = random.randint(8, 13)
-                
+                if player["Position"] == "GK":
+                    energy_loss = random.randint(3, 6)
+                else:
+                    energy_loss = random.randint(8, 13)
+
                 # Force player["OVR"] to float() before adding to prevent the TypeError
                 player["OVR"] = float(player["OVR"]) + ovr_gain
                 player["Energy"] = max(0, player["Energy"] - energy_loss)
@@ -362,7 +365,10 @@ while True:
                         print(f" -> {player['Name']} spent the week resting. Recovered +{injured_recovery}% energy. (Current: {player['Energy']}% | Matches left: {player['Injury_Duration']})")
                 else:
                     # Healthy players drain energy
-                    drain = random.randint(15, 25)
+                    if player["Position"] == "GK":
+                        drain = random.randint(4, 8)
+                    else:
+                        drain = random.randint(15, 25)
                     player["Energy"] -= drain
                     if player["Energy"] < 0:
                         player["Energy"] = 0
