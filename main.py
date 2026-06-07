@@ -81,6 +81,7 @@ print("====================================")
 time.sleep(0.5)
 energy_boost_used = False
 matches_played_counter = 0
+season_match_day = 0  
 
 # --- STEP 4: YOUR STARTING SQUAD ---
 # A list containing 4 dictionaries (one for each player)
@@ -192,7 +193,13 @@ while True:
         print(f"\n Your Team Average Energy: {round(avg_energy, 1)}%")
             
             # 2. Generate opponent energy
-        opponent_energy = random.randint(65, 95)
+        if season_match_day == 0:
+            opponent_energy = random.randint(96, 99)
+        else:
+            max_possible_energy = max(70, 100 - (season_match_day * 2))
+            min_possible_energy = max(55, 85 - (season_match_day * 2))
+            opponent_energy = random.randint(min_possible_energy, max_possible_energy)
+                
         print(f" Opponent Team Average Energy: {opponent_energy}%")
 
         
