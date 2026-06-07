@@ -307,15 +307,16 @@ while True:
             player_scorer_names = []
             healthy_outfield_players = [p for p in squad if p["Injury_Duration"] == 0 and p["Position"] != "GK"]
             if len(healthy_outfield_players) > 0 and player_goals > 0:
-                position_weights = []
-                for p in healthy_outfield_players:
-                    if p["Position"] == "ST":
-                        position_weights.append(65)  # 65% chance for clinical strikers
-                    elif p["Position"] == "CM":
-                        position_weights.append(25)  # 25% chance for midfielders
-                    else:
-                        position_weights.append(10)
+                
                 for _ in range(player_goals):
+                    position_weights = []
+                    for p in healthy_outfield_players:
+                        if p["Position"] == "ST":
+                            position_weights.append(65)  # 65% chance for clinical strikers
+                        elif p["Position"] == "CM":
+                            position_weights.append(25)  # 25% chance for midfielders
+                        else:
+                            position_weights.append(10)
                     # Pick 1 random player using our custom percentage weights
                     chosen_scorer = random.choices(healthy_outfield_players, weights=position_weights, k=1)[0]
                     goal_minute = random.randint(1, 90)
