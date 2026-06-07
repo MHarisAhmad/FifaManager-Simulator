@@ -325,6 +325,8 @@ while True:
                     }
                     # Save their name to our scorer list
                     player_scorer_names.append(goal_data)
+            
+            player_scorer_names.sort(key=lambda x: x["minute"])
 
             print("\n MATCH EVENTS:")
             print("------------------------------------")
