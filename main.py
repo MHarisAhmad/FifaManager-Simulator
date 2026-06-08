@@ -246,8 +246,43 @@ while True:
             print("------------------------------------")
             time.sleep(2)
             
-            print("\n Simulating match events...")
-            time.sleep(2)
+            print("\n REFEREE BLOWS THE WHISTLE! KICK-OFF! ")
+            print("------------------------------------")
+            time.sleep(1)
+
+            # Define some realistic non-goal football events for atmosphere
+            match_events = [
+                "intercepts a dangerous pass in the midfield!",
+                "lofts a beautiful cross into the box, but the keeper punches it clear.",
+                "attempts a long-range shot! It goes just wide of the post.",
+                "makes a brilliant sliding tackle to break up the opponent's counter-attack.",
+                "dribbles past two defenders but loses control near the touchline.",
+                "is caught offside by the referee's assistant."
+            ]
+
+            # We create a list of all minutes from 1 to 90
+            match_timeline = list(range(1, 91))
+            
+            # Pick 3 random minutes during the game to show regular match action
+            action_minutes = sorted(random.sample(match_timeline, 3))
+
+            # Combine our goals and action minutes into a master timeline
+            # We will use this loop to print events chronologically
+            for minute in range(1, 91):
+                
+                # Check if a goal was scored by your team in this exact minute
+                # (We will link your actual player_scorer_names here in the next step!)
+                
+                # Check if it's a regular action minute to show game buildup
+                if minute in action_minutes:
+                    random_player = random.choice(healthy_players)
+                    random_phrase = random.choice(match_events)
+                    print(f" [{minute}'.] {random_player['Name']} {random_phrase}")
+                    time.sleep(1.2) # Dramatic pause between commentary lines
+
+            print("------------------------------------")
+            print(" CODE 90: Referee blows the final whistle! ")
+            time.sleep(1)
 
             if avg_energy >= opponent_energy:
                 favorite = f"{club_name}"
