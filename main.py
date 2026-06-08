@@ -337,20 +337,11 @@ while True:
             
             player_scorer_names.sort(key=lambda x: x["minute"])
             
-            print("\n REFEREE BLOWS THE WHISTLE! KICK-OFF! ")
+            print("\n KICK-OFF! ")
             print("------------------------------------")
             time.sleep(1)
 
-            # Define some realistic non-goal football events for atmosphere
-            match_events = [
-                "intercepts a dangerous pass in the midfield!",
-                "lofts a beautiful cross into the box, but the keeper punches it clear.",
-                "attempts a long-range shot! It goes just wide of the post.",
-                "makes a brilliant sliding tackle to break up the opponent's counter-attack.",
-                "dribbles past two defenders but loses control near the touchline.",
-                "is caught offside by the referee's assistant."
-            ]
-
+            
             # We create a list of all minutes from 1 to 90
             match_timeline = list(range(1, 91))
             
@@ -358,6 +349,15 @@ while True:
             action_minutes = sorted(random.sample(match_timeline, 3))
 
             opponent_scorer_minutes = sorted([random.randint(1, 90) for _ in range(opponent_goals)])
+
+            has_injury = random.random() < 0.15
+            has_yellow = random.random() < 0.25
+            has_red = random.random() < 0.05
+
+            # Assign random minutes for these events if they triggered
+            injury_minute = random.randint(1, 90) if has_injury else -1
+            yellow_minute = random.randint(1, 90) if has_yellow else -1
+            red_minute = random.randint(1, 90) if has_red else -1
 
             # Combine our goals and action minutes into a master timeline
             # We will use this loop to print events chronologically
@@ -372,21 +372,32 @@ while True:
                     
                     goals_this_minute = opponent_scorer_minutes.count(minute)
                     for _ in range(goals_this_minute):
-                        print(f" \033[91m[{minute}'.] 🚨 GOAL FOR THE OPPONENT! Description: A defensive lapse allows them to score!\033[0m")
+                        print(f" \033[91m[{minute}'.]  GOAL FOR THE OPPONENT! Description: A defensive lapse allows them to score!\033[0m")
                         time.sleep(1.5) # Extra pause for dramatic tension!
                 
-                
-                # Check if it's a regular action minute to show game buildup
-                if minute in action_minutes:
-                    random_player = random.choice(healthy_players)
-                    random_phrase = random.choice(match_events)
-                    print(f" [{minute}'.] {random_player['Name']} {random_phrase}")
-                    time.sleep(1.2) # Dramatic pause between commentary lines
+                if minute == yellow_minute and len(healthy_players) > 0:
+                    card_player = random.choice(healthy_players)
+                    print(f" \033[93m[{minute}'.]  YELLOW CARD! {card_player['Name']} is booked for a reckless challenge.\033[0m")
+                    time.sleep(1)
+
+                # 4. RED CARDS
+                if minute == red_minute and len(healthy_players) > 0:
+                    card_player = random.choice(healthy_players)
+                    print(f" \033[31m[{minute}'.]  RED CARD!! {card_player['Name']} is sent off the pitch!\033[0m")
+                    time.sleep(1)
+
+                # 5. INJURIES DURING PLAY
+                if minute == injury_minute and len(healthy_players) > 0:
+                    injured_p = random.choice(healthy_players)
+                    # Set injury duration right here dynamically!
+                    duration = random.randint(1, 3)
+                    injured_p["Injury_Duration"] = duration
+                    print(f" \033[33m[{minute}'.]  INJURY NEWS: {injured_p['Name']} goes down clutching their ankle and must be substituted! (Out for {duration} matches)\033[0m")
+                    time.sleep(1.5)
 
             print("------------------------------------")
-            print(" CODE 90: Referee blows the final whistle! ")
+            print(" FULL TIME! ")
             time.sleep(1)
-
             
 
             print("\n MATCH EVENTS:")
