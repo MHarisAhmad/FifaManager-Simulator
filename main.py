@@ -357,6 +357,8 @@ while True:
             # Pick 3 random minutes during the game to show regular match action
             action_minutes = sorted(random.sample(match_timeline, 3))
 
+            opponent_scorer_minutes = sorted([random.randint(1, 90) for _ in range(opponent_goals)])
+
             # Combine our goals and action minutes into a master timeline
             # We will use this loop to print events chronologically
             for minute in range(1, 91):
@@ -366,8 +368,13 @@ while True:
                         print(f" \033[92m[{minute}'.]  GOAL!!! {goal['text']} finds the back of the net! The crowd goes wild!\033[0m")
                         time.sleep(1.5)
                 
-                # Check if a goal was scored by your team in this exact minute
-                # (We will link your actual player_scorer_names here in the next step!)
+                if minute in opponent_scorer_minutes:
+                    
+                    goals_this_minute = opponent_scorer_minutes.count(minute)
+                    for _ in range(goals_this_minute):
+                        print(f" \033[91m[{minute}'.] 🚨 GOAL FOR THE OPPONENT! Description: A defensive lapse allows them to score!\033[0m")
+                        time.sleep(1.5) # Extra pause for dramatic tension!
+                
                 
                 # Check if it's a regular action minute to show game buildup
                 if minute in action_minutes:
