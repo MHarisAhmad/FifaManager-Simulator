@@ -199,8 +199,8 @@ while True:
         if season_match_day == 0:
             opponent_energy = random.randint(96, 99)
         else:
-            max_possible_energy = max(70, 100 - (season_match_day * 2))
-            min_possible_energy = max(55, 85 - (season_match_day * 2))
+            max_possible_energy = max(70, 100 - (season_match_day * 3))
+            min_possible_energy = max(55, 85 - (season_match_day * 3))
             opponent_energy = random.randint(min_possible_energy, max_possible_energy)
                 
         print(f" Opponent Team Average Energy: {opponent_energy}%")
@@ -377,6 +377,7 @@ while True:
             # --- NEW AUTOMATIC ENGINE BALANCING FEATURE ---
             # 1. Advance our global match counter
             matches_played_counter += 1
+            season_match_day += 1
             
             # 2. Randomly decide if recovery triggers after 2 or 3 matches
             # We pick a random target threshold (either 2 or 3)
