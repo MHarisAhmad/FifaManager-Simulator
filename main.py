@@ -282,27 +282,29 @@ while True:
                 
             # Apply the 25% upset calculation with polished commentary strings
             upset_roll = random.random()
-
             player_goals = 0
             opponent_goals = 0
-
-            
-
             is_upset = upset_roll < 0.25
-            if is_upset:
-                if underdog == club_name:
-                    player_goals = random.randint(1, 3)
-                    opponent_goals = random.randint(0, player_goals - 1)
-                else:
-                    opponent_goals = random.randint(1, 3)
-                    player_goals = random.randint(0, opponent_goals - 1)
+
+            if abs(skill_gap) <= 8 and random.random() < 0.35:
+                player_goals = random.randint(0, 2)
+                opponent_goals = player_goals
+
             else:
-                if favorite == club_name:
-                    player_goals = random.randint(1, 4)
-                    opponent_goals = random.randint(0, player_goals - 1)
+                if is_upset:
+                    if underdog == club_name:
+                        player_goals = random.randint(1, 3)
+                        opponent_goals = random.randint(0, player_goals - 1)
+                    else:
+                        opponent_goals = random.randint(1, 3)
+                        player_goals = random.randint(0, opponent_goals - 1)
                 else:
-                    opponent_goals = random.randint(1, 4)
-                    player_goals = random.randint(0, opponent_goals - 1)
+                    if favorite == club_name:
+                        player_goals = random.randint(1, 4)
+                        opponent_goals = random.randint(0, player_goals - 1)
+                    else:
+                        opponent_goals = random.randint(1, 4)
+                        player_goals = random.randint(0, opponent_goals - 1)
 
             energy_boost_used = False
 
@@ -392,6 +394,59 @@ while True:
             print("------------------------------------")
             print(" FULL TIME! ")
             time.sleep(1)
+
+            if player_goals == opponent_goals:
+                print(f"\n FULL TIME DRAW! Score bound at {player_goals}-{opponent_goals}! ")
+                print("1. Play 30 Minutes of Extra Time")
+                print("2. Skip straight to a Penalty Shootout")
+                
+                tiebreaker_choice = input("Manager, how do you want to settle this? (1-2): ").strip()
+
+                # --- OPTION 1: EXTRA TIME SIMULATION ---
+                if tiebreaker_choice == "1":
+                    print(f"\n THE TEAMS RE-GROUP... EXTRA TIME BEGINS! (30 Mins) ")
+                    print("------------------------------------")
+                    time.sleep(1.5)
+
+                    player_et_goal = random.random() < 0.15
+                    opponent_et_goal = random.random() < 0.15
+                    et_card_minute = random.randint(91, 120) if random.random() < 0.20 else -1
+
+                    p_et_minute = random.randint(91, 120) if player_et_goal else -1
+                    o_et_minute = random.randint(91, 120) if opponent_et_goal else -1
+
+                    for minute in range(91, 121):
+                        if minute == p_et_minute:
+                            player_goals += 1
+                            scorer_text = random.choice(healthy_outfield_players)["Name"] if len(healthy_outfield_players) > 0 else "Striker"
+                            print(f" \033[92m[{minute}'.]  EXTRA TIME GOAL!!! {scorer_text} breaks the deadlock!\033[0m")
+                            time.sleep(1.5)
+
+                        if minute == o_et_minute:
+                            opponent_goals += 1
+                            print(f" \033[91m[{minute}'.]  EXTRA TIME GOAL FOR {opponent_name}! They smash it in!\033[0m")
+                            time.sleep(1.5)
+
+                        if minute == et_card_minute and len(healthy_players) > 0:
+                            card_p = random.choice(healthy_players)
+                            print(f" \033[93m[{minute}'.]  YELLOW CARD! {card_p['Name']} commits an extra-time tactical foul.\033[0m")
+                            time.sleep(1)
+
+                    print("------------------------------------")
+                    print(" END OF EXTRA TIME! ")
+                    time.sleep(1)
+
+                # --- OPTION 2: PENALTY SHOOTOUT STARTER (Placeholder) ---
+                elif tiebreaker_choice == "2":
+                    print("\n JUMPING STRAIGHT TO THE PENALTY SHOOTOUT! ")
+                    print("------------------------------------")
+                    time.sleep(1.5)
+                    # We will write the full penalty logic right here in the next step!
+                    print("[System] Penalty shooter logic coming up next.")
+                    
+                else:
+                    print("\n[System] Invalid choice! Referee flips a coin and forces Extra Time.")
+                    time.sleep(1)
 
             print("\n====================================")
             print(" MATCH REPORT | FULL-TIME PRESS")
