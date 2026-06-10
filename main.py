@@ -59,13 +59,16 @@ while True:
 
 if tier_choice == "1":
     raw_budget = random.randint(150000000, 250000000) 
-    budget = round(raw_budget, -6)  
+    budget = round(raw_budget, -6)
+    your_stars = 5.0  
 elif tier_choice == "2":
     raw_budget = random.randint(50000000, 90000000)
     budget = round(raw_budget, -5)  
+    your_stars = 4.0
 elif tier_choice == "3":
     raw_budget = random.randint(5000000, 15000000)
     budget = round(raw_budget, -4)  
+    your_stars = 3.0
 else:
     print("\n[System] Invalid choice! The board gave you a default standard budget.")
     budget = 30000000
@@ -205,6 +208,23 @@ while True:
                 
         print(f" Opponent Team Average Energy: {opponent_energy}%")
 
+
+        opponent_tier = random.choice(["Elite", "Mid-Table", "Road to Glory"])
+        
+        if opponent_tier == "Elite":
+            opponent_stars = random.choice([4.5, 5.0])
+            opponent_name = random.choice(["Real Madrid", "Manchester City", "Arsenal", "Bayern Munich", "FC Barcelona"])
+        elif opponent_tier == "Mid-Table":
+            opponent_stars = random.choice([3.5, 4.0])
+            opponent_name = random.choice(["Aston Villa", "AS Roma", "Newcastle United", "Villarreal"])
+        else:
+            opponent_stars = random.choice([1.5, 2.0, 2.5, 3.0])
+            opponent_name = random.choice(["Wrexham AFC", "Como 1907", "St. Pauli", "Ipswich Town"])
+
+        print(f"\n MATCH FIXTURE: {club_name} vs {opponent_name}")
+        print(f" Your Team Rating: {'⭐' * int(your_stars)}{'✨' if your_stars % 1 != 0 else ''} ({your_stars} Stars)")
+        print(f" Opponent Rating:  {'⭐' * int(opponent_stars)}{'✨' if opponent_stars % 1 != 0 else ''} ({opponent_stars} Stars)")
+
         
         # Capture the manager's match strategy choice
         match_choice = input("\nManager, what is your strategy? (1-2): ")
@@ -247,12 +267,18 @@ while True:
             time.sleep(2)
 
 
-            if avg_energy >= opponent_energy:
+            your_skill_score = ((your_stars * 20) * 0.6) + (avg_energy * 0.4)
+            opponent_skill_score = ((opponent_stars * 20) * 0.6) + (opponent_energy * 0.4)
+
+            if your_skill_score >= opponent_skill_score:
                 favorite = f"{club_name}"
-                underdog = "The Opponent"
+                underdog = opponent_name
             else:
-                favorite = "The Opponent"
+                favorite = opponent_name
                 underdog = f"{club_name}"
+                
+            # Keep this so our draw calculations use the new master skill score gap!
+            skill_gap = your_skill_score - opponent_skill_score
                 
             # Apply the 25% upset calculation with polished commentary strings
             upset_roll = random.random()
