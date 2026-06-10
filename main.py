@@ -437,12 +437,82 @@ while True:
                     time.sleep(1)
 
                 # --- OPTION 2: PENALTY SHOOTOUT STARTER (Placeholder) ---
-                elif tiebreaker_choice == "2":
+                elif tiebreaker_choice == "2" or player_goals == opponent_goals:
                     print("\n JUMPING STRAIGHT TO THE PENALTY SHOOTOUT! ")
                     print("------------------------------------")
+                    time.sleep(0.5)
+                    print("--------------------------------------------------")
+                    time.sleep(1.0)
+
+                    p_pens_scored = 0
+                    o_pens_scored = 0
+                    round_num = 1
+
+                    # Best of 5 rounds loop, continuing to sudden death if tied
+                    while round_num <= 5 or p_pens_scored == o_pens_scored:
+                        if round_num > 5:
+                            print(f"\n SUDDEN DEATH - ROUND {round_num}! ")
+                        else:
+                            print(f"\n PENALTY ROUND {round_num} ")
+                        
+                        # 1. YOUR TEAM SHOTS
+                        # Higher OVR outfield players have better conversion probabilities
+                        if len(healthy_outfield_players) > 0:
+                            penalty_taker = random.choice(healthy_outfield_players)
+                            # Convert OVR to a baseline percentage (e.g., 73 OVR -> ~78% score rate)
+                            score_chance = 0.50 + (penalty_taker["OVR"] / 250)
+                        else:
+                            score_chance = 0.70
+
+                        print(f" Up to the spot: {penalty_taker['Name'] if len(healthy_outfield_players) > 0 else 'Your Player'}...")
+                        time.sleep(1)
+
+                        if random.random() < score_chance:
+                            p_pens_scored += 1
+                            print(f"  \033[92mSCORED! Struck with absolute precision! ({p_pens_scored} - {o_pens_scored})\033[0m")
+                        else:
+                            print(f"  \033[91mSAVED/MISSED! The keeper guesses correctly or the ball flies wide!\033[0m")
+                        time.sleep(1)
+
+                        # Check if shootout is mathematically finished early during first 5 rounds
+                        if round_num <= 5:
+                            p_remaining_shots = 5 - round_num
+                            o_remaining_shots = 5 - (round_num - 1)
+                            if p_pens_scored > o_pens_scored + o_remaining_shots or o_pens_scored > p_pens_scored + p_remaining_shots:
+                                break
+
+                        # 2. OPPONENT SHOTS
+                        print(f" Up to the spot: {opponent_name}'s penalty taker...")
+                        time.sleep(1)
+
+                        # Opponent baseline conversion chance based on their team stars
+                        opponent_score_chance = 0.65 + (opponent_stars * 0.03)
+                        if random.random() < opponent_score_chance:
+                            o_pens_scored += 1
+                            print(f"  \033[91mSCORED FOR OPPONENT! Sends your goalkeeper the wrong way. ({p_pens_scored} - {o_pens_scored})\033[0m")
+                        else:
+                            print(f"  \033[92mSAVED BY YOUR KEEPER!!! A sensational diving stop!\033[0m")
+                        time.sleep(1)
+
+                        # Check math conditions again after opponent shoots
+                        if round_num <= 5:
+                            o_remaining_shots = 5 - round_num
+                            p_remaining_shots = 5 - round_num
+                            if p_pens_scored > o_pens_scored + o_remaining_shots or o_pens_scored > p_pens_scored + p_remaining_shots:
+                                break
+
+                        round_num += 1
+
+                    # Apply the definitive shootout outcome to the match score values
+                    print("\n--------------------------------------------------")
+                    print(f" SHOOTOUT COMPLETE! Final Penalties Score: {p_pens_scored} - {o_pens_scored} ")
+                    print("--------------------------------------------------")
                     time.sleep(1.5)
-                    # We will write the full penalty logic right here in the next step!
-                    print("[System] Penalty shooter logic coming up next.")
+
+                    if p_pens_scored > o_pens_scored:
+                        player_goals += 1 # Gift the winner a technical +1 to secure the structural victory
+                    else:
+                        opponent_goals += 1
                     
                 else:
                     print("\n[System] Invalid choice! Referee flips a coin and forces Extra Time.")
