@@ -262,54 +262,22 @@ while True:
 
             
 
-            if upset_roll < 0.25:
-
+            is_upset = upset_roll < 0.25
+            if is_upset:
                 if underdog == club_name:
                     player_goals = random.randint(1, 3)
                     opponent_goals = random.randint(0, player_goals - 1)
                 else:
                     opponent_goals = random.randint(1, 3)
                     player_goals = random.randint(0, opponent_goals - 1)
-
-                print("\n====================================")
-                print(" MATCH REPORT | FULL-TIME PRESS")
-                print("====================================")
-                print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
-                print(f"Match Winner: {underdog}")
-                print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
-                print("------------------------------------")
-                # Dynamic Budget Reward for Upset Win
-                if underdog == club_name:
-                    # You were the underdog and you pulled off a massive upset! Extra bonus!
-                    raw_bonus = random.randint(4000000, 7000000)
-                    match_bonus = round(raw_bonus, -5)
-                    budget += match_bonus
-                    print(f" UPSET BONUS! The board is ecstatic! Earned: €{match_bonus:,}")
-                else:
-                    print(" Disappointing defeat. No prize money awarded by the sponsors.")
             else:
-                print("\n====================================")
-                print(" MATCH REPORT | FULL-TIME PRESS")
-                print("====================================")
-                print(f"\nFT: A dominant, high-energy performance delivers a clean victory.")
-                print(f"Match Winner: {favorite}")
-                print("------------------------------------")
                 if favorite == club_name:
-                    if favorite == club_name:
-                        player_goals = random.randint(1, 4)
-                        opponent_goals = random.randint(0, player_goals - 1)
-                    else:
-                        opponent_goals = random.randint(1, 4)
-                        player_goals = random.randint(0, opponent_goals - 1)
-
-                    # You were expected to win and you delivered. Standard bonus.
-                    raw_bonus = random.randint(2500000, 4500000)
-                    match_bonus = round(raw_bonus, -5)
-                    budget += match_bonus
-                    print(f" VICTORY! Match performance prize money added: €{match_bonus:,}")
-                    print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
+                    player_goals = random.randint(1, 4)
+                    opponent_goals = random.randint(0, player_goals - 1)
                 else:
-                    print(" DEFEAT! You lost to the stronger team. No match day prize money.")
+                    opponent_goals = random.randint(1, 4)
+                    player_goals = random.randint(0, opponent_goals - 1)
+
             energy_boost_used = False
 
             player_scorer_names = []
@@ -398,10 +366,49 @@ while True:
             print("------------------------------------")
             print(" FULL TIME! ")
             time.sleep(1)
-            
 
-            print("\n MATCH EVENTS:")
+            print("\n====================================")
+            print(" MATCH REPORT | FULL-TIME PRESS")
+            print("====================================")
+            
+            if player_goals > opponent_goals:
+                if is_upset:
+                    print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
+                    print(f"Match Winner: {club_name}")
+                else:
+                    print(f"\nFT: A dominant, high-energy performance delivers a clean victory.")
+                    print(f"Match Winner: {club_name}")
+                
+                if is_upset:
+                    raw_bonus = random.randint(4000000, 7000000)
+                    match_bonus = round(raw_bonus, -5)
+                    print(f" UPSET BONUS! The board is ecstatic! Earned: €{match_bonus:,}")
+                else:
+                    raw_bonus = random.randint(2500000, 4500000)
+                    match_bonus = round(raw_bonus, -5)
+                    print(f" VICTORY! Match performance prize money added: €{match_bonus:,}")
+                
+                budget += match_bonus
+
+            elif player_goals < opponent_goals:
+                if is_upset:
+                    print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
+                    print(f"Match Winner: The Opponent")
+                else:
+                    print(f"\nFT: A tactical disappointment out on the pitch.")
+                    print(f"Match Winner: The Opponent")
+                print(" Disappointing defeat. No prize money awarded by the sponsors.")
+
+            else:
+                print(f"\nFT: A hard-fought battle ends in a completely level stalemate.")
+                print(f"Match Winner: Draw")
+                draw_bonus = random.randint(500000, 1200000)
+                budget += round(draw_bonus, -4)
+                print(f" DRAW! Shared match prize money added: €{round(draw_bonus, -4):,}")
+
+            print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
             print("------------------------------------")
+
               
 
             print("\n Post-Match Summary:")
