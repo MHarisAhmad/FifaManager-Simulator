@@ -286,9 +286,14 @@ while True:
             opponent_goals = 0
             is_upset = upset_roll < 0.25
 
-            if abs(skill_gap) <= 8 and random.random() < 0.35:
+            if abs(skill_gap) <= 5 and random.random() < 0.50:
                 player_goals = random.randint(0, 2)
                 opponent_goals = player_goals
+
+            elif 5 < abs(skill_gap) <= 12 and random.random() < 0.35:
+                player_goals = random.randint(0, 3)
+                opponent_goals = player_goals
+            
 
             else:
                 if is_upset:
