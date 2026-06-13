@@ -443,7 +443,7 @@ while True:
 
                 # --- OPTION 2: PENALTY SHOOTOUT STARTER (Placeholder) ---
                 elif tiebreaker_choice == "2" or player_goals == opponent_goals:
-                    print("\n JUMPING STRAIGHT TO THE PENALTY SHOOTOUT! ")
+                    print("\n PENALTY SHOOTOUT! ")
                     print("------------------------------------")
                     time.sleep(0.5)
                     print("--------------------------------------------------")
@@ -456,7 +456,7 @@ while True:
                     # Best of 5 rounds loop, continuing to sudden death if tied
                     while round_num <= 5 or p_pens_scored == o_pens_scored:
                         if round_num > 5:
-                            print(f"\n SUDDEN DEATH - ROUND {round_num}! ")
+                            print(f"\n  ROUND {round_num}! ")
                         else:
                             print(f"\n PENALTY ROUND {round_num} ")
                         
@@ -474,9 +474,9 @@ while True:
 
                         if random.random() < score_chance:
                             p_pens_scored += 1
-                            print(f"  \033[92mSCORED! Struck with absolute precision! ({p_pens_scored} - {o_pens_scored})\033[0m")
+                            print(f"  \033[92mSCORED! ({p_pens_scored} - {o_pens_scored})\033[0m")
                         else:
-                            print(f"  \033[91mSAVED/MISSED! The keeper guesses correctly or the ball flies wide!\033[0m")
+                            print(f"  \033[91mSAVED/MISSED! \033[0m")
                         time.sleep(1)
 
                         # Check if shootout is mathematically finished early during first 5 rounds
@@ -494,9 +494,9 @@ while True:
                         opponent_score_chance = 0.65 + (opponent_stars * 0.03)
                         if random.random() < opponent_score_chance:
                             o_pens_scored += 1
-                            print(f"  \033[91mSCORED FOR OPPONENT! Sends your goalkeeper the wrong way. ({p_pens_scored} - {o_pens_scored})\033[0m")
+                            print(f"  \033[91mSCORED FOR OPPONENT! ({p_pens_scored} - {o_pens_scored})\033[0m")
                         else:
-                            print(f"  \033[92mSAVED BY YOUR KEEPER!!! A sensational diving stop!\033[0m")
+                            print(f"  \033[92mSAVED BY YOUR KEEPER!!! \033[0m")
                         time.sleep(1)
 
                         # Check math conditions again after opponent shoots
