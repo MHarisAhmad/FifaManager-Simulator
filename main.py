@@ -79,6 +79,17 @@ print("\n====================================")
 print(f"Breaking News: {manager_name} has just been announced as the new manager of {club_name}!")
 print(f"Board Expectation: You have been given a transfer budget of €{budget:,}")
 print("====================================")
+time.sleep(0.5)
+
+league_stats = {
+    "Played":0,
+    "Wins":0,
+    "Draws":0,
+    "Losses":0,
+    "Points":0
+}
+
+LEAGUE_TARGET_POINTS = 15
 
 # Using our time import to pause before the script finishes
 time.sleep(0.5)
@@ -106,9 +117,10 @@ while True:
     print("2. Visit Transfer Market")
     print("3. Train Players")
     print("4. Play Match")
-    print("5. Exit Game")
+    print("5. View League Table Standings")
+    print("6. Exit Game")
     
-    choice = input("Select an option (1-5): ")
+    choice = input("Select an option (1-6): ")
 
     if choice == "1":
         print("\n=== YOUR SQUAD ===")
@@ -584,6 +596,19 @@ while True:
             print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
             print("------------------------------------")
 
+            league_stats["Played"] += 1
+
+            if player_goals > opponent_goals:
+                league_stats["Wins"] += 1
+                league_stats["Points"] += 3
+                print(f"\n VICTORY! +3 Points added to your tally.")
+            elif player_goals == opponent_goals:
+                league_stats["Draws"] += 1
+                league_stats["Points"] += 1
+                print(f"\n DRAW! +1 Point added to your tally.")
+            else:
+                league_stats["Losses"] += 1
+                print(f"\n DEFEAT! 0 Points added.")
               
 
             print("\n Post-Match Summary:")
@@ -660,7 +685,29 @@ while True:
             print("\n[System] Invalid choice, returning to hub.")
             time.sleep(1.5)
         
+    
     elif choice == "5":
+            print("\n==============================================")
+            print(f" {club_name.upper()} - LEAGUE CAMPAIGN STANDINGS ")
+            print("==============================================")
+            print(f"  Matches Played: {league_stats['Played']}")
+            print(f"  Wins:           {league_stats['Wins']}")
+            print(f"  Draws:          {league_stats['Draws']}")
+            print(f"  Losses:         {league_stats['Losses']}")
+            print("----------------------------------------------")
+            print(f"  TOTAL POINTS:   {league_stats['Points']} / {LEAGUE_TARGET_POINTS}")
+            print("==============================================")
+            
+            # Check if target is achieved
+            if league_stats["Points"] >= LEAGUE_TARGET_POINTS:
+                print("\n CONGRATULATIONS MANAGER! You have reached 15 points and WON the League Title! ")
+            else:
+                points_needed = LEAGUE_TARGET_POINTS - league_stats["Points"]
+                print(f" You need {points_needed} more points to win the championship.")
+                
+            input("\nPress Enter to return to the Main Hub...")
+        
+    elif choice == "6":
         print("\nSaving data...")
         time.sleep(1)
         print("Thanks for playing! Goodbye, Boss.")
