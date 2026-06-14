@@ -464,8 +464,18 @@ while True:
                         # Higher OVR outfield players have better conversion probabilities
                         if len(healthy_outfield_players) > 0:
                             penalty_taker = random.choice(healthy_outfield_players)
-                            # Convert OVR to a baseline percentage (e.g., 73 OVR -> ~78% score rate)
-                            score_chance = 0.50 + (penalty_taker["OVR"] / 250)
+                            penalty_taker = random.choice(healthy_outfield_players)
+                            taker_ovr = penalty_taker["OVR"]
+                            
+                            # Your exact tier logic converted to score probabilities:
+                            if taker_ovr < 70:
+                                score_chance = 0.55  # 45% chance to miss
+                            elif 70 <= taker_ovr < 80:
+                                score_chance = 0.70  # 30% chance to miss
+                            elif 80 <= taker_ovr < 90:
+                                score_chance = 0.85  # 15% chance to miss
+                            else:
+                                score_chance = 0.90  # 10% chance to miss
                         else:
                             score_chance = 0.70
 
@@ -485,6 +495,15 @@ while True:
                             o_remaining_shots = 5 - (round_num - 1)
                             if p_pens_scored > o_pens_scored + o_remaining_shots or o_pens_scored > p_pens_scored + p_remaining_shots:
                                 break
+                        opponent_taker_ovr = int(opponent_stars * 15) + random.randint(-5, 5)
+                        if opponent_taker_ovr < 70:
+                            opponent_score_chance = 0.55
+                        elif 70 <= opponent_taker_ovr < 80:
+                            opponent_score_chance = 0.70
+                        elif 80 <= opponent_taker_ovr < 90:
+                            opponent_score_chance = 0.85
+                        else:
+                            opponent_score_chance = 0.90
 
                         # 2. OPPONENT SHOTS
                         print(f" Up to the spot: {opponent_name}'s penalty taker...")
