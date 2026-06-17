@@ -81,15 +81,15 @@ print(f"Board Expectation: You have been given a transfer budget of €{budget:,
 print("====================================")
 time.sleep(0.5)
 
-league_stats = {
-    "Played":0,
-    "Wins":0,
-    "Draws":0,
-    "Losses":0,
-    "Points":0
+league_table = {
+    club_name:       {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0},
+    "Real Madrid":   {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0},
+    "Bayern Munich": {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0},
+    "Arsenal":       {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0}
 }
 
-LEAGUE_TARGET_POINTS = 15
+# The campaign will run for a mini-season of 6 matches
+TOTAL_SEASON_MATCHES = 6
 
 # Using our time import to pause before the script finishes
 time.sleep(0.5)
@@ -596,20 +596,90 @@ while True:
             print(f"Final Score: {club_name} {player_goals} - {opponent_goals} Opponent")
             print("------------------------------------")
 
-            league_stats["Played"] += 1
 
-            if player_goals > opponent_goals:
-                league_stats["Wins"] += 1
-                league_stats["Points"] += 3
-                print(f"\n VICTORY! +3 Points added to your tally.")
-            elif player_goals == opponent_goals:
-                league_stats["Draws"] += 1
-                league_stats["Points"] += 1
-                print(f"\n DRAW! +1 Point added to your tally.")
+
+            print("\n=======================================================")
+            print(f"           OFFICIAL LEAGUE CAMPAIGN STANDINGS        ")
+            print("=======================================================")
+            print(f" {'POS':<4} {'CLUB':<18} {'P':<4} {'W':<4} {'D':<4} {'L':<4} {'PTS':<5}")
+            print("-------------------------------------------------------")
+
+            # Sort the teams dynamically based on points value descending
+            sorted_teams = sorted(league_table.items(), key=lambda item: item[1]["PTS"], reverse=True)
+
+            pos = 1
+            for team_name, stats in sorted_teams:
+                # Add a special visual marker for the user's custom club name
+                display_name = f" {team_name}" if team_name == club_name else team_name
+                print(f" [{pos}]  {display_name:<18} {stats['P']:<4} {stats['W']:<4} {stats['D']:<4} {stats['L']:<4} {stats['PTS']:<5}")
+                pos += 1
+
+            print("=======================================================")
+            
+            # Season progress report
+            current_week = league_table[club_name]["P"]
+            print(f"  Match Week: {current_week} / {TOTAL_SEASON_MATCHES}")
+            
+            if current_week >= TOTAL_SEASON_MATCHES:
+                winner_team = sorted_teams[0][0]
+                if winner_team == club_name:
+                    print("\n THE SEASON IS OVER! YOU ARE THE CHAMPIONS! CONGRATULATIONS! ")
+                else:
+                    print(f"\n THE SEASON IS OVER! {winner_team} has won the championship trophy.")
             else:
-                league_stats["Losses"] += 1
-                print(f"\n DEFEAT! 0 Points added.")
-              
+                print(" Keep winning matches to climb to the top of the table!")
+
+            input("\nPress Enter to return to the Main Hub...")
+
+            league_table[club_name]["P"] += 1
+            if player_goals > opponent_goals:
+                league_table[club_name]["W"] += 1
+                league_table[club_name]["PTS"] += 3
+                print(f"\n🎉 VICTORY! +3 Points added to your tally.")
+            elif player_goals == opponent_goals:
+                league_table[club_name]["D"] += 1
+                league_table[club_name]["PTS"] += 1
+                print(f"\n🤝 DRAW! +1 Point added to your tally.")
+            else:
+                league_table[club_name]["L"] += 1
+                print(f"\n❌ DEFEAT! 0 Points added.")
+
+            # --- AI SIMULATION ENGINE (RUNS IN BACKGROUND) ---
+            # Grab all AI teams from our database dictionary
+            ai_teams = [team for team in league_table.keys() if team != club_name]
+            
+            print("\n🔄 Simulating other league fixtures for this match week...")
+            time.sleep(1)
+
+            # We shuffle them and simulate background results
+            random.shuffle(ai_teams)
+            
+            # Team 1 vs Team 2
+            t1, t2 = ai_teams[0], ai_teams[1]
+            league_table[t1]["P"] += 1
+            league_table[t2]["P"] += 1
+            
+            ai_roll = random.random()
+            if ai_roll < 0.35: # 35% chance of an AI draw
+                league_table[t1]["D"] += 1; league_table[t1]["PTS"] += 1
+                league_table[t2]["D"] += 1; league_table[t2]["PTS"] += 1
+            elif ai_roll < 0.70: # 35% chance Team 1 wins
+                league_table[t1]["W"] += 1; league_table[t1]["PTS"] += 3
+                league_table[t2]["L"] += 1
+            else: # 30% chance Team 2 wins
+                league_table[t2]["W"] += 1; league_table[t2]["PTS"] += 3
+                league_table[t1]["L"] += 1
+
+            # Team 3 (The remaining team) plays a wildcard match against an outside club
+            t3 = ai_teams[2]
+            league_table[t3]["P"] += 1
+            wildcard_roll = random.random()
+            if wildcard_roll < 0.40:
+                league_table[t3]["D"] += 1; league_table[t3]["PTS"] += 1
+            elif wildcard_roll < 0.80:
+                league_table[t3]["W"] += 1; league_table[t3]["PTS"] += 3
+            else:
+                league_table[t3]["L"] += 1
 
             print("\n Post-Match Summary:")
             for player in squad:
