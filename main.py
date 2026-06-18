@@ -635,6 +635,41 @@ while True:
                         player["Energy"] = 0
                     print(f" -> {player['Name']} ran hard and dropped to {player['Energy']}% energy.")
 
+            ai_teams = [team for team in league_table.keys() if team != club_name]
+            
+            print("\n Simulating other league fixtures for this match week...")
+            time.sleep(1)
+
+            # Randomly shuffle the AI teams to determine matchups
+            random.shuffle(ai_teams)
+            
+            # Team 1 plays Team 2
+            t1, t2 = ai_teams[0], ai_teams[1]
+            league_table[t1]["P"] += 1
+            league_table[t2]["P"] += 1
+            
+            ai_roll = random.random()
+            if ai_roll < 0.35: # 35% chance of an AI draw
+                league_table[t1]["D"] += 1; league_table[t1]["PTS"] += 1
+                league_table[t2]["D"] += 1; league_table[t2]["PTS"] += 1
+            elif ai_roll < 0.70: # 35% chance Team 1 wins
+                league_table[t1]["W"] += 1; league_table[t1]["PTS"] += 3
+                league_table[t2]["L"] += 1
+            else: # 30% chance Team 2 wins
+                league_table[t2]["W"] += 1; league_table[t2]["PTS"] += 3
+                league_table[t1]["L"] += 1
+
+            # Team 3 plays an unmanaged outside team (Wildcard match)
+            t3 = ai_teams[2]
+            league_table[t3]["P"] += 1
+            wildcard_roll = random.random()
+            if wildcard_roll < 0.40: # Draw
+                league_table[t3]["D"] += 1; league_table[t3]["PTS"] += 1
+            elif wildcard_roll < 0.80: # Win
+                league_table[t3]["W"] += 1; league_table[t3]["PTS"] += 3
+            else: # Loss
+                league_table[t3]["L"] += 1
+
             # --- NEW AUTOMATIC ENGINE BALANCING FEATURE ---
             # 1. Advance our global match counter
             matches_played_counter += 1
@@ -683,6 +718,7 @@ while True:
         else:
             print("\n[System] Invalid choice, returning to hub.")
             time.sleep(1.5)
+        
         
     
     elif choice == "5":
