@@ -689,22 +689,21 @@ while True:
             print("\n==============================================")
             print(f" {club_name.upper()} - LEAGUE CAMPAIGN STANDINGS ")
             print("==============================================")
-            print(f"  Matches Played: {league_stats['Played']}")
-            print(f"  Wins:           {league_stats['Wins']}")
-            print(f"  Draws:          {league_stats['Draws']}")
-            print(f"  Losses:         {league_stats['Losses']}")
+            # Accessing the stats inside league_table using double brackets [][]
+            print(f"  Matches Played: {league_table[club_name]['P']}")
+            print(f"  Wins:           {league_table[club_name]['W']}")
+            print(f"  Draws:          {league_table[club_name]['D']}")
+            print(f"  Losses:         {league_table[club_name]['L']}")
             print("----------------------------------------------")
-            print(f"  TOTAL POINTS:   {league_stats['Points']} / {LEAGUE_TARGET_POINTS}")
+            print(f"  TOTAL POINTS:   {league_table[club_name]['PTS']} / 15")
             print("==============================================")
             
-            # Check if target is achieved
-            if league_stats["Points"] >= LEAGUE_TARGET_POINTS:
+            # Simple check against your target
+            if league_table[club_name]['PTS'] >= 15:
                 print("\n CONGRATULATIONS MANAGER! You have reached 15 points and WON the League Title! ")
             else:
-                points_needed = LEAGUE_TARGET_POINTS - league_stats["Points"]
+                points_needed = 15 - league_table[club_name]['PTS']
                 print(f" You need {points_needed} more points to win the championship.")
-                
-            input("\nPress Enter to return to the Main Hub...")
         
     elif choice == "6":
         print("\nSaving data...")
