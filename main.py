@@ -649,13 +649,13 @@ while True:
             league_table[t2]["P"] += 1
             
             ai_roll = random.random()
-            if ai_roll < 0.35: # 35% chance of an AI draw
+            if ai_roll < 0.10: 
                 league_table[t1]["D"] += 1; league_table[t1]["PTS"] += 1
                 league_table[t2]["D"] += 1; league_table[t2]["PTS"] += 1
-            elif ai_roll < 0.70: # 35% chance Team 1 wins
+            elif ai_roll < 0.55: 
                 league_table[t1]["W"] += 1; league_table[t1]["PTS"] += 3
                 league_table[t2]["L"] += 1
-            else: # 30% chance Team 2 wins
+            else: 
                 league_table[t2]["W"] += 1; league_table[t2]["PTS"] += 3
                 league_table[t1]["L"] += 1
 
@@ -663,9 +663,9 @@ while True:
             t3 = ai_teams[2]
             league_table[t3]["P"] += 1
             wildcard_roll = random.random()
-            if wildcard_roll < 0.40: # Draw
+            if wildcard_roll < 0.10: # Draw
                 league_table[t3]["D"] += 1; league_table[t3]["PTS"] += 1
-            elif wildcard_roll < 0.80: # Win
+            elif wildcard_roll < 0.55: # Win
                 league_table[t3]["W"] += 1; league_table[t3]["PTS"] += 3
             else: # Loss
                 league_table[t3]["L"] += 1
