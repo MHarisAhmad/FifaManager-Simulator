@@ -723,23 +723,37 @@ while True:
     
     elif choice == "5":
             print("\n==============================================")
-            print(f" {club_name.upper()} - LEAGUE CAMPAIGN STANDINGS ")
+            print("  OFFICIAL LEAGUE CAMPAIGN STANDINGS  ")
             print("==============================================")
             # Accessing the stats inside league_table using double brackets [][]
-            print(f"  Matches Played: {league_table[club_name]['P']}")
-            print(f"  Wins:           {league_table[club_name]['W']}")
-            print(f"  Draws:          {league_table[club_name]['D']}")
-            print(f"  Losses:         {league_table[club_name]['L']}")
-            print("----------------------------------------------")
-            print(f"  TOTAL POINTS:   {league_table[club_name]['PTS']} / 15")
-            print("==============================================")
+            print(f" {'POS':<4} {'CLUB':<18} {'P':<4} {'W':<4} {'D':<4} {'L':<4} {'PTS':<5}")
+            print("-------------------------------------------------------")
+
+            # Dynamic Sorting: Sorts teams by their "PTS" key in descending order
+            sorted_teams = sorted(league_table.items(), key=lambda item: item[1]["PTS"], reverse=True)
+
+            pos = 1
+            for team_name, stats in sorted_teams:
+                # Add a visual pointer to highlight your team on the board
+                display_name = f" {team_name}" if team_name == club_name else team_name
+                print(f" [{pos}]  {display_name:<18} {stats['P']:<4} {stats['W']:<4} {stats['D']:<4} {stats['L']:<4} {stats['PTS']:<5}")
+                pos += 1
+
+            print("=======================================================")
             
-            # Simple check against your target
-            if league_table[club_name]['PTS'] >= 15:
-                print("\n CONGRATULATIONS MANAGER! You have reached 15 points and WON the League Title! ")
+            # End of season report check
+            current_week = league_table[club_name]["P"]
+            print(f"  Match Week: {current_week} / {TOTAL_SEASON_MATCHES}")
+            
+            if current_week >= TOTAL_SEASON_MATCHES:
+                winner_team = sorted_teams[0][0]
+                if winner_team == club_name:
+                    print("\n THE SEASON IS OVER! YOU ARE THE CHAMPIONS! CONGRATULATIONS! ")
+                else:
+                    print(f"\n THE SEASON IS OVER! {winner_team} has won the championship trophy.")
             else:
-                points_needed = 15 - league_table[club_name]['PTS']
-                print(f" You need {points_needed} more points to win the championship.")
+                print(" Keep winning matches to climb to the top of the table!")
+            input("\nPress Enter to return to the Main Hub...")
         
     elif choice == "6":
         print("\nSaving data...")
