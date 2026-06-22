@@ -749,37 +749,42 @@ while True:
         
     
     elif choice == "5":
-            print("\n==============================================")
-            print("  OFFICIAL LEAGUE CAMPAIGN STANDINGS  ")
-            print("==============================================")
-            # Accessing the stats inside league_table using double brackets [][]
-            print(f" {'POS':<4} {'CLUB':<18} {'P':<4} {'W':<4} {'D':<4} {'L':<4} {'PTS':<5}")
-            print("-------------------------------------------------------")
+            print("\n=========================================================================")
+            print("                       OFFICIAL LEAGUE STANDINGS                        ")
+            print("=========================================================================")
+            print(f" {'POS':<4} {'CLUB':<18} {'P':<4} {'W':<4} {'D':<4} {'L':<4} {'GF':<4} {'GA':<4} {'GD':<4} {'PTS':<5}")
+            print("-------------------------------------------------------------------------")
 
-            # Dynamic Sorting: Sorts teams by their "PTS" key in descending order
+            # Dynamic Sorting: Sorts primarily by PTS
             sorted_teams = sorted(league_table.items(), key=lambda item: item[1]["PTS"], reverse=True)
 
             pos = 1
             for team_name, stats in sorted_teams:
-                # Add a visual pointer to highlight your team on the board
-                display_name = f" {team_name}" if team_name == club_name else team_name
-                print(f" [{pos}]  {display_name:<18} {stats['P']:<4} {stats['W']:<4} {stats['D']:<4} {stats['L']:<4} {stats['PTS']:<5}")
+                # Calculate Goal Difference on the fly (GF - GA)
+                goal_diff = stats["GF"] - stats["GA"]
+                # Format GD to show a + sign for positive numbers (e.g., +3 or -2)
+                gd_str = f"+{goal_diff}" if goal_diff > 0 else str(goal_diff)
+
+                # Use a simple text pointer instead of an emoji
+                display_name = f">> {team_name}" if team_name == club_name else team_name
+                print(f" [{pos}]  {display_name:<18} {stats['P']:<4} {stats['W']:<4} {stats['D']:<4} {stats['L']:<4} {stats['GF']:<4} {stats['GA']:<4} {gd_str:<4} {stats['PTS']:<5}")
                 pos += 1
 
-            print("=======================================================")
+            print("=========================================================================")
             
             # End of season report check
             current_week = league_table[club_name]["P"]
-            print(f"  Match Week: {current_week} / {TOTAL_SEASON_MATCHES}")
+            print(f" Match Week: {current_week} / {TOTAL_SEASON_MATCHES}")
             
             if current_week >= TOTAL_SEASON_MATCHES:
                 winner_team = sorted_teams[0][0]
                 if winner_team == club_name:
-                    print("\n THE SEASON IS OVER! YOU ARE THE CHAMPIONS! CONGRATULATIONS! ")
+                    print("\nTHE SEASON IS OVER! YOU ARE THE CHAMPIONS! CONGRATULATIONS!")
                 else:
-                    print(f"\n THE SEASON IS OVER! {winner_team} has won the championship trophy.")
+                    print(f"\nTHE SEASON IS OVER! {winner_team} has won the championship trophy.")
             else:
-                print(" Keep winning matches to climb to the top of the table!")
+                print("Keep winning matches to climb to the top of the table!")
+
             input("\nPress Enter to return to the Main Hub...")
         
     elif choice == "6":
