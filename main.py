@@ -608,6 +608,9 @@ while True:
             else:
                 league_table[club_name]["L"] += 1
                 print(f"\n DEFEAT! 0 Points added.")
+            
+            league_table[club_name]["GF"] += player_goals       
+            league_table[club_name]["GA"] += opponent_goals
               
 
             print("\n Post-Match Summary:")
