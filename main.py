@@ -82,10 +82,10 @@ print("====================================")
 time.sleep(0.5)
 
 league_table = {
-    club_name:       {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0},
-    "Real Madrid":   {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0},
-    "Bayern Munich": {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0},
-    "Arsenal":       {"P": 0, "W": 0, "D": 0, "L": 0, "PTS": 0}
+    club_name:       {"P": 0, "W": 0, "D": 0, "L": 0, "GF": 0, "GA": 0, "PTS": 0},
+    "Real Madrid":   {"P": 0, "W": 0, "D": 0, "L": 0, "GF": 0, "GA": 0, "PTS": 0},
+    "Bayern Munich": {"P": 0, "W": 0, "D": 0, "L": 0, "GF": 0, "GA": 0, "PTS": 0},
+    "Arsenal":       {"P": 0, "W": 0, "D": 0, "L": 0, "GF": 0, "GA": 0, "PTS": 0}
 }
 
 TOTAL_SEASON_MATCHES = 6
