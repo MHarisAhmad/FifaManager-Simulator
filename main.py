@@ -652,26 +652,50 @@ while True:
             league_table[t2]["P"] += 1
             
             ai_roll = random.random()
-            if ai_roll < 0.10: 
+            if ai_roll < 0.10: # Draw
+                goals = random.randint(0, 3) # e.g., 0-0, 1-1, 2-2
+                t1_goals, t2_goals = goals, goals
+                
                 league_table[t1]["D"] += 1; league_table[t1]["PTS"] += 1
                 league_table[t2]["D"] += 1; league_table[t2]["PTS"] += 1
-            elif ai_roll < 0.55: 
+            elif ai_roll < 0.55: # Team 1 Wins
+                t1_goals = random.randint(1, 4)
+                t2_goals = random.randint(0, t1_goals - 1) # Assures t2 has fewer goals
+                
                 league_table[t1]["W"] += 1; league_table[t1]["PTS"] += 3
                 league_table[t2]["L"] += 1
-            else: 
+            else: # Team 2 Wins
+                t2_goals = random.randint(1, 4)
+                t1_goals = random.randint(0, t2_goals - 1) # Assures t1 has fewer goals
+                
                 league_table[t2]["W"] += 1; league_table[t2]["PTS"] += 3
                 league_table[t1]["L"] += 1
+
+            # Save the simulated goals to their GF and GA counters
+            league_table[t1]["GF"] += t1_goals; league_table[t1]["GA"] += t2_goals
+            league_table[t2]["GF"] += t2_goals; league_table[t2]["GA"] += t1_goals
 
             # Team 3 plays an unmanaged outside team (Wildcard match)
             t3 = ai_teams[2]
             league_table[t3]["P"] += 1
             wildcard_roll = random.random()
+            
             if wildcard_roll < 0.10: # Draw
+                goals = random.randint(0, 3)
+                t3_goals, opp_goals = goals, goals
                 league_table[t3]["D"] += 1; league_table[t3]["PTS"] += 1
             elif wildcard_roll < 0.55: # Win
+                t3_goals = random.randint(1, 4)
+                opp_goals = random.randint(0, t3_goals - 1)
                 league_table[t3]["W"] += 1; league_table[t3]["PTS"] += 3
             else: # Loss
+                opp_goals = random.randint(1, 4)
+                t3_goals = random.randint(0, opp_goals - 1)
                 league_table[t3]["L"] += 1
+
+            # Save the simulated goals for Team 3
+            league_table[t3]["GF"] += t3_goals
+            league_table[t3]["GA"] += opp_goals
 
             # --- NEW AUTOMATIC ENGINE BALANCING FEATURE ---
             # 1. Advance our global match counter
