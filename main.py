@@ -190,7 +190,14 @@ while True:
             else:
                 print(" Boost available. You can still apply it later.")
         time.sleep(1.5)
-        
+
+
+        injury_messages = [
+            "Clutched ankle",
+            "Pulled hamstring",
+            "Twisted knee",
+            "Muscle strain"
+        ]
         
     elif choice == "4":
         print("\n=== UPCOMING MATCH WEEK ===")
@@ -242,7 +249,7 @@ while True:
         
         if match_choice == "1":
 
-            print("\n  Squad completing pre-match warmups and physical therapy...")
+            print("\n  Pre-match warmups ...")
             for player in squad:
                 if player["Injury_Duration"] == 0:
                     pre_match_boost = random.randint(3, 7)
@@ -377,19 +384,19 @@ while True:
 
                 for goal in player_scorer_names:
                     if goal["minute"] == minute:
-                        print(f" \033[92m[{minute}'.]  GOAL!!! {goal['text']} finds the back of the net! The crowd goes wild!\033[0m")
+                        print(f" \033[92m[{minute}'.]  GOAL!!! {goal['text']} \033[0m")
                         time.sleep(1.5)
                 
                 if minute in opponent_scorer_minutes:
                     
                     goals_this_minute = opponent_scorer_minutes.count(minute)
                     for _ in range(goals_this_minute):
-                        print(f" \033[91m[{minute}'.]  GOAL FOR THE OPPONENT! Description: A defensive lapse allows them to score!\033[0m")
+                        print(f" \033[91m[{minute}'.]  GOAL FOR THE OPPONENT! \033[0m")
                         time.sleep(1.5) # Extra pause for dramatic tension!
                 
                 if minute == yellow_minute and len(healthy_players) > 0:
                     card_player = random.choice(healthy_players)
-                    print(f" \033[93m[{minute}'.]  YELLOW CARD! {card_player['Name']} is booked for a reckless challenge.\033[0m")
+                    print(f" \033[93m[{minute}'.]  YELLOW CARD! {card_player['Name']} \033[0m")
                     time.sleep(1)
 
                 # 4. RED CARDS
@@ -401,10 +408,13 @@ while True:
                 # 5. INJURIES DURING PLAY
                 if minute == injury_minute and len(healthy_players) > 0:
                     injured_p = random.choice(healthy_players)
-                    # Set injury duration right here dynamically!
                     duration = random.randint(1, 3)
                     injured_p["Injury_Duration"] = duration
-                    print(f" \033[33m[{minute}'.]  INJURY NEWS: {injured_p['Name']} goes down clutching their ankle and must be substituted! (Out for {duration} matches)\033[0m")
+                    
+                    # Randomly pick one short description from our list
+                    reason = random.choice(injury_messages)
+                    
+                    print(f" \033[33m[{minute}'.] INJURY NEWS: {injured_p['Name']}: {reason}. (Out for {duration} matches)\033[0m")
                     time.sleep(1.5)
 
             print("------------------------------------")
@@ -412,15 +422,15 @@ while True:
             time.sleep(1)
 
             if player_goals == opponent_goals:
-                print(f"\n FULL TIME DRAW! Score bound at {player_goals}-{opponent_goals}! ")
-                print("1. Play 30 Minutes of Extra Time")
-                print("2. Skip straight to a Penalty Shootout")
+                print(f"\n FULL TIME DRAW! {player_goals}-{opponent_goals}! ")
+                print("1. Extra-time (30 mins)")
+                print("2. Penalty Shootout")
                 
                 tiebreaker_choice = input("Manager, how do you want to settle this? (1-2): ").strip()
 
                 # --- OPTION 1: EXTRA TIME SIMULATION ---
                 if tiebreaker_choice == "1":
-                    print(f"\n THE TEAMS RE-GROUP... EXTRA TIME BEGINS! (30 Mins) ")
+                    print(f"\n  EXTRA TIME! (30 Mins) ")
                     print("------------------------------------")
                     time.sleep(1.5)
 
@@ -559,35 +569,30 @@ while True:
             
             if player_goals > opponent_goals:
                 if is_upset:
-                    print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
                     print(f"Match Winner: {club_name}")
                 else:
-                    print(f"\nFT: A dominant, high-energy performance delivers a clean victory.")
                     print(f"Match Winner: {club_name}")
                 
                 if is_upset:
                     raw_bonus = random.randint(4000000, 7000000)
                     match_bonus = round(raw_bonus, -5)
-                    print(f" UPSET BONUS! The board is ecstatic! Earned: €{match_bonus:,}")
+                    print(f" BONUS! Earned: €{match_bonus:,}")
                 else:
                     raw_bonus = random.randint(2500000, 4500000)
                     match_bonus = round(raw_bonus, -5)
-                    print(f" VICTORY! Match performance prize money added: €{match_bonus:,}")
+                    print(f" VICTORY! Prize money added: €{match_bonus:,}")
                 
                 budget += match_bonus
 
             elif player_goals < opponent_goals:
                 if is_upset:
-                    print(f"\nFT: Against all odds, a masterclass in tactical grit wins it!")
                     print(f"Match Winner: The Opponent")
                 else:
-                    print(f"\nFT: A tactical disappointment out on the pitch.")
                     print(f"Match Winner: The Opponent")
-                print(" Disappointing defeat. No prize money awarded by the sponsors.")
+                print(" Disappointing defeat. No prize money awarded. ")
 
             else:
-                print(f"\nFT: A hard-fought battle ends in a completely level stalemate.")
-                print(f"Match Winner: Draw")
+                print(f"Match Draw!")
                 draw_bonus = random.randint(500000, 1200000)
                 budget += round(draw_bonus, -4)
                 print(f" DRAW! Shared match prize money added: €{round(draw_bonus, -4):,}")
@@ -740,7 +745,7 @@ while True:
                 recovery = random.randint(15, 22)
                 player["Energy"] = min(100, player["Energy"] + recovery)
                 
-            print(" Energy recovered successfully for the next fixture!")
+            print(" Energy recovered successfully! ")
             time.sleep(2)
         else:
             print("\n[System] Invalid choice, returning to hub.")
