@@ -259,30 +259,7 @@ while True:
                     if player["Energy"] >= 98:
                         player["Energy"] = 97
             time.sleep(1.5)
-
-
-            # New Micro-Step: Calculate individual player performance scores
-            print("\n MATCH DAY INDIVIDUAL PERFORMANCE REPORT:")
-            print("------------------------------------")
-            for player in squad:
-                if player["Injury_Duration"] > 0:
-                    print(f" ->  {player['Name']} ({player['Position']}) | Sidelined (Injured for {player['Injury_Duration']} more matches)")
-                else:
-                    # Healthy player calculations
-                    perf_score = (player["OVR"] * 0.6) + (player["Energy"] * 0.4)
-                    print(f" -> {player['Name']} ({player['Position']}) | Match Performance: {round(perf_score, 1)}")
-                    
-                    # Injury risk check for fatigued players
-                    if player["Energy"] < 70:
-                        if random.random() < 0.15:
-                            # Roll random duration between 3 and 6 matches
-                            duration = random.randint(3, 6)
-                            player["Injury_Duration"] = duration
-                            print(f"    CRITICAL MEDICAL ALERT: {player['Name']} suffered a severe injury during the match!")
-                            print(f"    [Status: Out of action for the next {duration} matches]")
-                        
-            print("------------------------------------")
-            time.sleep(2)
+            
 
 
             your_skill_score = ((your_stars * 20) * 0.6) + (avg_energy * 0.4)
@@ -409,12 +386,12 @@ while True:
                 if minute == injury_minute and len(healthy_players) > 0:
                     injured_p = random.choice(healthy_players)
                     duration = random.randint(1, 3)
+                    
+                    # Save both duration AND the random reason inside the player dictionary
                     injured_p["Injury_Duration"] = duration
+                    injured_p["Injury_Reason"] = random.choice(injury_messages)
                     
-                    # Randomly pick one short description from our list
-                    reason = random.choice(injury_messages)
-                    
-                    print(f" \033[33m[{minute}'.] INJURY NEWS: {injured_p['Name']}: {reason}. (Out for {duration} matches)\033[0m")
+                    print(f" \033[33m[{minute}'.] INJURY NEWS: {injured_p['Name']}: {injured_p['Injury_Reason']}. (Out for {duration} matches)\033[0m")
                     time.sleep(1.5)
 
             print("------------------------------------")
@@ -642,6 +619,20 @@ while True:
                     if player["Energy"] < 0:
                         player["Energy"] = 0
                     print(f" -> {player['Name']} ran hard and dropped to {player['Energy']}% energy.")
+            
+            print("\n MATCH PERFORMANCE REPORT:")
+            print("------------------------------------")
+            for player in squad:
+                if player["Injury_Duration"] > 0:
+                    # Retrieve the exact reason saved during the match, default to 'Injured' if missing
+                    reason = player.get("Injury_Reason", "Muscle strain")
+                    print(f" -> {player['Name']}: Sidelined ({reason} - {player['Injury_Duration']} matches left)")
+                else:
+                    perf_score = (player["OVR"] * 0.6) + (player["Energy"] * 0.4)
+                    print(f" -> {player['Name']}: Rating {round(perf_score, 1)}")
+                        
+            print("------------------------------------")
+            time.sleep(2)
 
             ai_teams = [team for team in league_table.keys() if team != club_name]
             
