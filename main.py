@@ -299,12 +299,22 @@ while True:
                         opponent_goals = random.randint(1, 3)
                         player_goals = random.randint(0, opponent_goals - 1)
                 else:
+                    # RARE SUPER BLOWOUT TRIGGER
+                    # 10% chance to trigger a massive blowout if the skill gap favorability is huge
+                    is_super_blowout = abs(skill_gap) >= 15 and random.random() < 0.10
+
                     if favorite == club_name:
-                        player_goals = random.randint(1, 4)
-                        opponent_goals = random.randint(0, player_goals - 1)
+                        if is_super_blowout:
+                            player_goals = random.randint(5, 6)  # Rare massive victory
+                        else:
+                            player_goals = random.randint(1, 4)  # Normal favorite victory
+                        opponent_goals = random.randint(0, max(0, player_goals - 2))
                     else:
-                        opponent_goals = random.randint(1, 4)
-                        player_goals = random.randint(0, opponent_goals - 1)
+                        if is_super_blowout:
+                            opponent_goals = random.randint(5, 6)  # Rare massive defeat
+                        else:
+                            opponent_goals = random.randint(1, 4)  # Normal favorite defeat
+                        player_goals = random.randint(0, max(0, opponent_goals - 2))
 
             energy_boost_used = False
 
