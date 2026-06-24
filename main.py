@@ -281,7 +281,11 @@ while True:
             opponent_goals = 0
             is_upset = upset_roll < 0.25
 
-            if abs(skill_gap) <= 5 and random.random() < 0.50:
+            if random.random() < 0.07:
+                player_goals = 0
+                opponent_goals = 0
+
+            elif abs(skill_gap) <= 5 and random.random() < 0.50:
                 player_goals = random.randint(0, 2)
                 opponent_goals = player_goals
 
@@ -307,13 +311,13 @@ while True:
                         if is_super_blowout:
                             player_goals = random.randint(5, 6)  # Rare massive victory
                         else:
-                            player_goals = random.randint(1, 4)  # Normal favorite victory
+                            player_goals = random.randint(1, 3)  # Normal favorite victory
                         opponent_goals = random.randint(0, max(0, player_goals - 2))
                     else:
                         if is_super_blowout:
                             opponent_goals = random.randint(5, 6)  # Rare massive defeat
                         else:
-                            opponent_goals = random.randint(1, 4)  # Normal favorite defeat
+                            opponent_goals = random.randint(1, 3)  # Normal favorite defeat
                         player_goals = random.randint(0, max(0, opponent_goals - 2))
 
             energy_boost_used = False
