@@ -10,8 +10,23 @@ class Player:
         self.injury_duration = 0
         self.injury_reason = ""
 
+class Goalkeeper(Player):
+    def calculate_rating(self, clean_sheet=True, saves=3):
+        # Goalkeepers get a bonus for clean sheets and making saves
+        base_perf = (self.ovr * 0.5) + (self.energy * 0.3)
+        bonus = 20 if clean_sheet else 0
+        save_bonus = saves * 2
+        return min(100, round(base_perf + bonus + save_bonus, 1))
+
+class Striker(Player):
+    def calculate_rating(self, goals=0, shots_on_target=2):
+        # Strikers get heavily rated on their goals scored
+        base_perf = (self.ovr * 0.5) + (self.energy * 0.3)
+        goal_bonus = goals * 15
+        shot_bonus = shots_on_target * 2
+        return min(100, round(base_perf + goal_bonus + shot_bonus, 1))
+
     def calculate_rating(self, match_stats):
-        """Base calculation method to be overridden by subclasses (Polymorphism)"""
         return (self.ovr * 0.6) + (self.energy * 0.4)
 
 injury_messages = [
