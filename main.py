@@ -1,6 +1,18 @@
 import random
 import time
 
+class Player:
+    def __init__(self, name, position, ovr):
+        self.name = name
+        self.position = position
+        self.ovr = ovr
+        self.energy = 100
+        self.injury_duration = 0
+        self.injury_reason = ""
+
+    def calculate_rating(self, match_stats):
+        """Base calculation method to be overridden by subclasses (Polymorphism)"""
+        return (self.ovr * 0.6) + (self.energy * 0.4)
 
 injury_messages = [
     "Clutched ankle",
