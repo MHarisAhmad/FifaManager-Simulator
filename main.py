@@ -1,6 +1,60 @@
 import random
 import time
 
+
+injury_messages = [
+    "Clutched ankle",
+    "Pulled hamstring",
+    "Twisted knee",
+    "Muscle strain",
+    "Calf strain",
+    "Groin strain",
+    "Sprained ankle",
+    "Torn ligament",
+    "Minor concussion",
+    "Shoulder dislocation",
+    "Back spasms",
+    "Foot fracture",
+    "Broken toe",
+    "Thigh strain",
+    "Hip injury",
+    "Achilles tendon strain",
+    "Shin injury",
+    "Bruised ribs",
+    "Neck strain",
+    "Wrist fracture",
+    "Dislocated finger",
+    "Ankle ligament damage",
+    "Knee ligament injury",
+    "Quad strain",
+    "Meniscus tear",
+    "Hamstring tear",
+    "Calf cramp",
+    "Lower back injury",
+    "Muscle fatigue",
+    "Stress fracture",
+    "Heel injury",
+    "Toe ligament sprain",
+    "Facial injury",
+    "Broken nose",
+    "Eye injury",
+    "Chest injury",
+    "Abdominal strain",
+    "Adductor strain",
+    "Patellar tendon injury",
+    "ACL tear",
+    "MCL sprain",
+    "Cartilage damage",
+    "Severe ankle sprain",
+    "Torn calf muscle",
+    "Pelvic injury",
+    "Ligament strain",
+    "Shin splints",
+    "Knock to the head",
+    "Heavy collision injury",
+    "Overstretched muscle"
+]
+
 # --- STEP 1: WELCOME AND SETUP ---
 print("====================================")
 print("WELCOME TO THE FIFA MANAGER SIMULATOR")
@@ -192,12 +246,7 @@ while True:
         time.sleep(1.5)
 
 
-        injury_messages = [
-            "Clutched ankle",
-            "Pulled hamstring",
-            "Twisted knee",
-            "Muscle strain"
-        ]
+
         
     elif choice == "4":
         print("\n=== UPCOMING MATCH WEEK ===")
