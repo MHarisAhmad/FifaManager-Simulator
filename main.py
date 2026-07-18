@@ -28,6 +28,22 @@ class Striker(Player):
 
     def calculate_rating(self, match_stats):
         return (self.ovr * 0.6) + (self.energy * 0.4)
+    
+class Defender(Player):
+    def calculate_rating(self, clean_sheet=True, tackles=4):
+        # Defenders earn bonuses for clean sheets and successful tackles
+        base_perf = (self.ovr * 0.5) + (self.energy * 0.3)
+        bonus = 15 if clean_sheet else 0
+        tackle_bonus = tackles * 2.5
+        return min(100, round(base_perf + bonus + tackle_bonus, 1))
+
+class Midfielder(Player):
+    def calculate_rating(self, assists=0, passes_completed=25):
+        # Midfielders are graded heavily on control, distribution, and setup play
+        base_perf = (self.ovr * 0.5) + (self.energy * 0.3)
+        assist_bonus = assists * 12
+        pass_bonus = (passes_completed // 5) * 2  # Bonus points for every 5 completed passes
+        return min(100, round(base_perf + assist_bonus + pass_bonus, 1))
 
 injury_messages = [
     "Clutched ankle",
